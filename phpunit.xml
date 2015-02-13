@@ -7,8 +7,14 @@
          convertWarningsToExceptions="true">
 
     <testsuites>
-        <testsuite name="OAuth2Client">
+        <testsuite name="OAuth2ClientUnit">
             <directory>tests/unit/phpunit/</directory>
+        </testsuite>
+    </testsuites>
+
+    <testsuites>
+        <testsuite name="OAuth2ClientIntegration">
+            <directory>tests/integration/phpunit/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

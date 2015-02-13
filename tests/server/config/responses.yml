@@ -1,0 +1,23 @@
+hello_world_get:
+  request:
+    path: /hello/world
+    methods: ['GET']
+  response:
+    headers:
+      'Content-Type': 'application/json'
+
+
+resource_owner_password_credentials_grant:
+  request:
+    path: "/oauth2/token"
+    methods: ['GET']
+  response:
+    headers:
+      Content-Type: application/json
+    content: |
+              {
+                "access_token":"2YotnFZFEjr1zCsicMWpAA",
+                "token_type":"Bearer",
+                "expires_in":3600,
+                "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+              }

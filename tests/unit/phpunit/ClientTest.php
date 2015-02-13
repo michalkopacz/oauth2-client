@@ -6,7 +6,7 @@
  * Time: 21:20
  */
 
-namespace MostSignificantBit\OAuth2\Client\Tests;
+namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
