@@ -1,0 +1,13 @@
+{
+    "name": "most-significant-bit/oauth2-client",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Michal Kopacz",
+            "email": "michalkopacz.mk@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.0"
+    }
+}
