@@ -1,0 +1,14 @@
+<phpunit bootstrap="tests/unit/phpunit/bootstrap.php"
+         backupStaticAttributes="false"
+         backupGlobals="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true">
+
+    <testsuites>
+        <testsuite name="OAuth2Client">
+            <directory>tests/unit/phpunit/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
