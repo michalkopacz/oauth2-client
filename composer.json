@@ -16,7 +16,9 @@
         "coduo/tutu": "dev-master",
         "coduo/tutu-faker-extension": "dev-master",
         "coduo/tutu-twig-extension": "dev-master",
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "symfony/process": "~2.6"
     },
     "autoload": {
         "psr-4": {
@@ -25,8 +27,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "MostSignificantBit\\OAuth2\\Client\\Tests\\Unit": "tests/unit/phpunit/",
-            "MostSignificantBit\\OAuth2\\Client\\Tests\\Integration": "tests/integration/phpunit/"
+            "MostSignificantBit\\OAuth2\\Client\\Tests\\Unit\\": "tests/unit/phpunit/",
+            "MostSignificantBit\\OAuth2\\Client\\Tests\\Integration\\": "tests/integration/phpunit/"
         }
     }
 }

@@ -1,16 +1,7 @@
-hello_world_get:
-  request:
-    path: /hello/world
-    methods: ['GET']
-  response:
-    headers:
-      'Content-Type': 'application/json'
-
-
 resource_owner_password_credentials_grant:
   request:
     path: "/oauth2/token"
-    methods: ['GET']
+    methods: ['POST']
   response:
     headers:
       Content-Type: application/json

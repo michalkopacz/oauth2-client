@@ -8,16 +8,24 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http;
 
+use GuzzleHttp\Client as GuzzleHttp;
 
 class Guzzle5Adapter implements ClientInterface
 {
-    public function __construct()
-    {
+    /**
+     * @var GuzzleHttp
+     */
+    protected $client;
 
+    public function __construct(GuzzleHttp $client)
+    {
+        $this->client = $client;
     }
 
     public function post($url, $params)
     {
-        // TODO: Implement post() method.
+        $response = $this->client->post($url, array('body' => $params));
+
+        return $response->json();
     }
 }
