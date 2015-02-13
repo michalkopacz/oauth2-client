@@ -1,34 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michał Kopacz
- * Date: 13.02.15
- * Time: 21:30
- */
-
 namespace MostSignificantBit\OAuth2\Client\Response;
 
 
 class AccessToken
 {
+    /**
+     * @var string
+     */
     protected $accessToken;
 
+    /**
+     * @var AccessTokenType
+     */
     protected $tokenType;
 
+    /**
+     * @var int
+     */
     protected $expiresIn;
 
+    /**
+     * @var string
+     */
     protected $refreshToken;
 
+    /**
+     * @var array
+     */
     protected $scope;
 
-    public function __construct($accessToken, $tokenType)
+    public function __construct($accessToken, AccessTokenType $tokenType)
     {
         $this->accessToken = $accessToken;
         $this->tokenType = $tokenType;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAccessToken()
     {
@@ -36,7 +44,7 @@ class AccessToken
     }
 
     /**
-     * @return mixed
+     * @return AccessTokenType
      */
     public function getTokenType()
     {
@@ -44,7 +52,7 @@ class AccessToken
     }
 
     /**
-     * @param mixed $expiresIn
+     * @param int $expiresIn
      */
     public function setExpiresIn($expiresIn)
     {
@@ -52,7 +60,7 @@ class AccessToken
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getExpiresIn()
     {
@@ -60,7 +68,7 @@ class AccessToken
     }
 
     /**
-     * @param mixed $refreshToken
+     * @param string $refreshToken
      */
     public function setRefreshToken($refreshToken)
     {
@@ -68,7 +76,7 @@ class AccessToken
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRefreshToken()
     {
@@ -76,7 +84,7 @@ class AccessToken
     }
 
     /**
-     * @param mixed $scope
+     * @param array $scope
      */
     public function setScope($scope)
     {
@@ -84,7 +92,7 @@ class AccessToken
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getScope()
     {
