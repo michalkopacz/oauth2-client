@@ -4,5 +4,18 @@ namespace MostSignificantBit\OAuth2\Client\Http;
 
 interface ClientInterface
 {
-    public function postAccessToken($url, $bodyParams, $clientCredentials);
+    /**
+     * @param string $url
+     * @param array $params
+     * array(
+     *   'body' => array()
+     *   'credentials' => array(
+     *      'client_id' =>
+     *      'client_secret' =>
+     *   )
+     * )
+     * @param array $options
+     * @return array
+     */
+    public function postAccessToken($url, array $params, array $options);
 } 

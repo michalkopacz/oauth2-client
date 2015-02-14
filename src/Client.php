@@ -35,10 +35,16 @@ class Client
 
     public function obtainAccessToken(GrantTypeInterface $grantType)
     {
-        $bodyParams = $grantType->getParams();
-        $clientCredentials = $this->config->getClientCredentials();
+        $params = array(
+            'body' => $grantType->getParams(),
+            'credentials' => $this->config->getClientCredentials(),
+        );
 
-        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUrl(), $bodyParams, $clientCredentials);
+        $options = array(
+            'authentication_type' => $this->config->getClientAuthenticationType(),
+        );
+
+        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUrl(), $params, $options);
 
         return $this->mapToAccessTokenResponse($response);
     }

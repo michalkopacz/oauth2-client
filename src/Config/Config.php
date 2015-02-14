@@ -39,7 +39,11 @@ class Config
         Assertion::keyExists($config['client']['credentials'], 'client_id',  'Client id is required');
         Assertion::keyExists($config['client']['credentials'], 'client_secret',  'Client secret is required');
 
-        $this->config = array_merge($this->config, $config);
+        if (isset($config['client']['authentication_type'])) {
+            Assertion::inArray($config['client']['authentication_type'], array(self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE, self::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE));
+        }
+
+        $this->config = array_merge_recursive($this->config, $config);
     }
 
     /**

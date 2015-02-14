@@ -8,7 +8,9 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http;
 
+use Coduo\PHPMatcher\Exception\Exception;
 use GuzzleHttp\Client as GuzzleHttp;
+use MostSignificantBit\OAuth2\Client\Config\Config;
 
 class Guzzle5Adapter implements ClientInterface
 {
@@ -22,15 +24,27 @@ class Guzzle5Adapter implements ClientInterface
         $this->client = $client;
     }
 
-    public function postAccessToken($url, $bodyParams, $clientCredentials)
+    public function postAccessToken($url, array $params, array $options)
     {
-        $response = $this->client->post($url, array(
-            'body' => $bodyParams,
-            'auth' => array(
-                $clientCredentials['client_id'],
-                $clientCredentials['client_secret'],
-            ),
-        ));
+        $requestOptions = array(
+            'body' => $params['body'],
+        );
+
+        switch ($options['authentication_type']) {
+            case Config::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE:
+                $requestOptions['body'] = array_merge($requestOptions['body'], $params['credentials']);
+                break;
+            case Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE:
+                $requestOptions['auth'] = array(
+                    $params['credentials']['client_id'],
+                    $params['credentials']['client_secret'],
+                );
+                break;
+            default:
+                throw new \Exception('Unrecognized client authentication type');
+        }
+
+        $response = $this->client->post($url, $requestOptions);
 
         return $response->json();
     }

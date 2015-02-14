@@ -20,13 +20,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     ->with(
                         $this->equalTo('https://auth.example.com/token'),
                         $this->equalTo(array(
-                            'grant_type' => 'password',
-                            'username' => 'johndoe',
-                            'password' => 'A3ddj3w',
+                            'body' => array(
+                                'grant_type' => 'password',
+                                'username' => 'johndoe',
+                                'password' => 'A3ddj3w',
+                            ),
+                            'credentials' => array(
+                                'client_id' => 's6BhdRkqt3',
+                                'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+                            )
                         )),
                         $this->equalTo(array(
-                            'client_id' => 's6BhdRkqt3',
-                            'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+                            'authentication_type' => Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
                         ))
                     )
                     ->willReturn(array(
