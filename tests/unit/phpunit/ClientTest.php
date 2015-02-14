@@ -3,6 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
+use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Http\Response;
 use MostSignificantBit\OAuth2\Client\Response\AccessToken;
@@ -131,7 +132,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         try {
             $oauth2Client->obtainAccessToken($grantType);
-        } catch (\MostSignificantBit\OAuth2\Client\Exception\TokenException $exception) {
+        } catch (TokenException $exception) {
             $this->assertSame('https://auth.example.com/oauth2/errors/invalid_request', $exception->getErrorUri());
 
             throw $exception;
