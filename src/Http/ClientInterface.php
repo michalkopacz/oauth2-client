@@ -15,7 +15,7 @@ interface ClientInterface
      *   )
      * )
      * @param array $options
-     * @return array
+     * @return Response
      */
     public function postAccessToken($url, array $params, array $options);
 } 

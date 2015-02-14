@@ -1,7 +1,7 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Config;
 
-use Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 
 class Config
 {

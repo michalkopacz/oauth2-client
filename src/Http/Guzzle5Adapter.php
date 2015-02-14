@@ -24,6 +24,13 @@ class Guzzle5Adapter implements ClientInterface
         $this->client = $client;
     }
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @param array $options
+     * @return Response
+     * @throws \Exception
+     */
     public function postAccessToken($url, array $params, array $options)
     {
         $requestOptions = array(
@@ -46,6 +53,10 @@ class Guzzle5Adapter implements ClientInterface
 
         $response = $this->client->post($url, $requestOptions);
 
-        return $response->json();
+        $oauth2Response = new Response();
+        $oauth2Response->setStatusCode($response->getStatusCode());
+        $oauth2Response->setBody($response->json());
+
+        return $oauth2Response;
     }
 }

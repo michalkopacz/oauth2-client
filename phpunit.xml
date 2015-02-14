@@ -17,4 +17,15 @@
             <directory>tests/integration/phpunit/</directory>
         </testsuite>
     </testsuites>
+
+    <logging>
+        <log type="coverage-html" target="data/tests/coverage"/>
+    </logging>
+
+    <filter>
+        <blacklist>
+            <directory>vendor</directory>
+        </blacklist>
+    </filter>
+
 </phpunit>
