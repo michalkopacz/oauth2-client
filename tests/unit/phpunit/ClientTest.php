@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michał Kopacz
- * Date: 13.02.15
- * Time: 21:20
- */
-
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
+use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Response\AccessToken;
 use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
@@ -18,19 +12,23 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testGetAccessTokenResourceOwnerPasswordCredentialsGrant()
     {
         $httpClient = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ClientInterface')
-            ->setMethods(array('post'))
+            ->setMethods(array('postAccessToken'))
             ->getMockForAbstractClass();
 
         $httpClient->expects($this->once())
-                    ->method('post')
+                    ->method('postAccessToken')
                     ->with(
                         $this->equalTo('https://auth.example.com/token'),
                         $this->equalTo(array(
                             'grant_type' => 'password',
                             'username' => 'johndoe',
                             'password' => 'A3ddj3w',
-                        )
-                    ))
+                        )),
+                        $this->equalTo(array(
+                            'client_id' => 's6BhdRkqt3',
+                            'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+                        ))
+                    )
                     ->willReturn(array(
                         'access_token' => '2YotnFZFEjr1zCsicMWpAA',
                         'token_type' => 'Bearer',
@@ -38,7 +36,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                         'refresh_token' => 'tGzv3JOkF0XG5Qx2TlKWIA',
                     ));
 
-        $oauth2Client = new OAuth2Client($httpClient, 'https://auth.example.com/token');
+        $config = new Config(array(
+            'endpoint' => array(
+               'token_endpoint_url' => 'https://auth.example.com/token',
+             ),
+            'client' => array(
+                'credentials' => array(
+                    'client_id' => 's6BhdRkqt3',
+                    'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+                ),
+            ),
+        ));
+
+        $oauth2Client = new OAuth2Client($httpClient, $config);
 
         $accessToken = new AccessToken('2YotnFZFEjr1zCsicMWpAA', AccessTokenType::BEARER());
         $accessToken->setExpiresIn(3600);

@@ -22,9 +22,15 @@ class Guzzle5Adapter implements ClientInterface
         $this->client = $client;
     }
 
-    public function post($url, $params)
+    public function postAccessToken($url, $bodyParams, $clientCredentials)
     {
-        $response = $this->client->post($url, array('body' => $params));
+        $response = $this->client->post($url, array(
+            'body' => $bodyParams,
+            'auth' => array(
+                $clientCredentials['client_id'],
+                $clientCredentials['client_secret'],
+            ),
+        ));
 
         return $response->json();
     }

@@ -9,6 +9,7 @@
 namespace MostSignificantBit\OAuth2\Client;
 
 
+use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\GrantType\GrantTypeInterface;
 use MostSignificantBit\OAuth2\Client\Response\AccessToken;
 use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
@@ -21,19 +22,23 @@ class Client
      */
     protected $httpClient;
 
-    protected $tokenUrl;
+    /**
+     * @var Config
+     */
+    protected $config;
 
-    public function __construct(HttpClient $httpClient, $tokenUrl)
+    public function __construct(HttpClient $httpClient, Config $config)
     {
         $this->httpClient = $httpClient;
-        $this->tokenUrl = $tokenUrl;
+        $this->config = $config;
     }
 
     public function obtainAccessToken(GrantTypeInterface $grantType)
     {
-        $params = $grantType->getParams();
+        $bodyParams = $grantType->getParams();
+        $clientCredentials = $this->config->getClientCredentials();
 
-        $response = $this->httpClient->post($this->tokenUrl, $params);
+        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUrl(), $bodyParams, $clientCredentials);
 
         return $this->mapToAccessTokenResponse($response);
     }

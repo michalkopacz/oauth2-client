@@ -2,6 +2,12 @@ resource_owner_password_credentials_grant:
   request:
     path: "/oauth2/token"
     methods: ['POST']
+    headers:
+      Authorization: Basic @string@
+    request:
+      grant_type: password
+      username: johndoe
+      password: A3ddj3w
   response:
     headers:
       Content-Type: application/json
