@@ -5,6 +5,7 @@ use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestInterface;
 use MostSignificantBit\OAuth2\Client\GrantType\GrantTypeInterface;
 use MostSignificantBit\OAuth2\Client\Http\Response;
 use MostSignificantBit\OAuth2\Client\Response\AccessToken;
@@ -46,13 +47,30 @@ class Client
             'authentication_type' => $this->config->getClientAuthenticationType(),
         );
 
-        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUrl(), $params, $options);
+        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUri(), $params, $options);
 
         if ($response->getStatusCode() !== 200) {
             $this->throwTokenException($response);
         }
 
         return $this->mapToAccessTokenResponse($response->getBody());
+    }
+
+    /**
+     * @param AuthorizationRequestInterface $authorization
+     * @throws InvalidArgumentException
+     */
+    public function buildAuthorizationRequestUri(AuthorizationRequestInterface $authorization)
+    {
+        $authorizationEndpointUri = $this->config->getAuthorizationEndpointUri();
+
+        Assertion::notNull($authorizationEndpointUri, 'Authorization endpoint uri is required to build uri.');
+
+        $authorization->setClientId($this->config->getClientId());
+
+        $query = http_build_query($authorization->getQueryParameters());
+
+        return "{$authorizationEndpointUri}?{$query}";
     }
 
     /**
@@ -64,7 +82,7 @@ class Client
     {
         $body = $response->getBody();
 
-        Assertion::keyExists($body, 'error', 'Error param in response body is required');
+        Assertion::keyExists($body, 'error', 'Error param in response body is required.');
 
         $error = $body['error'];
         $errorDescription = isset($body['error_description']) ? $body['error_description'] : null;
@@ -80,8 +98,8 @@ class Client
      */
     protected function mapToAccessTokenResponse(array $body)
     {
-        Assertion::keyExists($body, 'access_token', 'Access token param in body is required');
-        Assertion::keyExists($body, 'token_type', 'Token type param in body is required');
+        Assertion::keyExists($body, 'access_token', 'Access token param in body is required.');
+        Assertion::keyExists($body, 'token_type', 'Token type param in body is required.');
 
         $accessTokenResponse = new AccessToken($body['access_token'], new AccessTokenType($body['token_type']));
 

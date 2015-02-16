@@ -1,6 +1,8 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\GrantType;
 
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+
 class ResourceOwnerPasswordCredentialsGrant implements GrantTypeInterface
 {
     const GRANT_TYPE = 'password';
@@ -42,15 +44,15 @@ class ResourceOwnerPasswordCredentialsGrant implements GrantTypeInterface
     }
 
     /**
-     * @param array $scope
+     * @param Scope $scope
      */
-    public function setScope(array $scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
 
     /**
-     * @return array
+     * @return Scope
      */
     public function getScope()
     {
@@ -73,10 +75,8 @@ class ResourceOwnerPasswordCredentialsGrant implements GrantTypeInterface
             'password' => $this->getPassword(),
         );
 
-        $scope = $this->getScope();
-
-        if ($scope !== null) {
-            $params['scope'] = implode(' ', $scope);
+        if ($this->getScope() !== null) {
+            $params['scope'] = $this->getScope()->getScopeParameter();
         }
 
         return $params;

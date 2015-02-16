@@ -33,7 +33,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $config = new Config(array(
             'endpoint' => array(
-                'token_endpoint_url' => 'http://127.0.0.1:8000/oauth2/token',
+                'token_endpoint_uri' => 'http://127.0.0.1:8000/oauth2/token',
             ),
             'client' => array(
                 'credentials' => array(

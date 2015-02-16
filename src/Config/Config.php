@@ -9,8 +9,16 @@ class Config
     const CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE = 'request_body';
 
     protected $config = array(
+        'endpoint' => array(
+           'token_endpoint_uri' => null,
+           'authorization_endpoint_uri' => null,
+        ),
         'client' => array(
-            'authentication_type' => self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
+           'credentials' => array (
+               'client_id' => null,
+               'client_secret' => null,
+           ),
+           'authentication_type' => self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
         ),
     );
 
@@ -18,7 +26,8 @@ class Config
      * @param array $config
      * array(
      *      'endpoint' => array(
-     *          'token_endpoint_url' => REQUIRED
+     *          'token_endpoint_uri' => REQUIRED,
+     *          'authorization_endpoint_uri' => REQUIRED if we use authorization request
      *      ),
      *      'client' => array(
      *          'credentials' => array (
@@ -32,7 +41,7 @@ class Config
     public function __construct(array $config)
     {
         Assertion::keyExists($config, 'endpoint', 'Endpoint section is required');
-        Assertion::keyExists($config['endpoint'], 'token_endpoint_url', 'Token endpoint url is required');
+        Assertion::keyExists($config['endpoint'], 'token_endpoint_uri', 'Token endpoint uri is required');
 
         Assertion::keyExists($config, 'client',  'Client section is required');
         Assertion::keyExists($config['client'], 'credentials',  'Client credentials section is required');
@@ -43,15 +52,44 @@ class Config
             Assertion::inArray($config['client']['authentication_type'], array(self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE, self::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE));
         }
 
-        $this->config = array_merge_recursive($this->config, $config);
+        $this->config = $this->merge($this->config, $config);
+    }
+
+    /**
+     * Copy form Zf2 stdlib, because we want to have compatiblity with php 5.3.0
+     * @link https://github.com/zendframework/zf2/blob/master/library/Zend/Stdlib/ArrayUtils.php
+     */
+    public function merge(array $a, array $b)
+    {
+        foreach ($b as $key => $value) {
+            if (isset($a[$key]) || array_key_exists($key, $a)) {
+                if (is_array($value) && is_array($a[$key])) {
+                    $a[$key] = $this->merge($a[$key], $value);
+                } else {
+                    $a[$key] = $value;
+                }
+            } else {
+                $a[$key] = $value;
+            }
+        }
+
+        return $a;
     }
 
     /**
      * @return string
      */
-    public function getTokenEndpointUrl()
+    public function getTokenEndpointUri()
     {
-        return $this->config['endpoint']['token_endpoint_url'];
+        return $this->config['endpoint']['token_endpoint_uri'];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAuthorizationEndpointUri()
+    {
+        return $this->config['endpoint']['authorization_endpoint_uri'];
     }
 
     /**

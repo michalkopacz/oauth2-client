@@ -1,11 +1,14 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
+use MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\Authorization\Request as AuthorizationRequest;
+use MostSignificantBit\OAuth2\Client\Authorization\ResponseType;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Http\Response;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Response\AccessToken;
 use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
 
@@ -50,7 +53,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $config = new Config(array(
             'endpoint' => array(
-               'token_endpoint_url' => 'https://auth.example.com/token',
+               'token_endpoint_uri' => 'https://auth.example.com/token',
              ),
             'client' => array(
                 'credentials' => array(
@@ -116,7 +119,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $config = new Config(array(
             'endpoint' => array(
-                'token_endpoint_url' => 'https://auth.example.com/token',
+                'token_endpoint_uri' => 'https://auth.example.com/token',
             ),
             'client' => array(
                 'credentials' => array(
@@ -137,5 +140,33 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
             throw $exception;
         }
+    }
+
+    public function testGetAuthorizationRequestUriForCodeResponseType()
+    {
+        $httpClient = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ClientInterface')
+            ->getMockForAbstractClass();
+
+        $config = new Config(array(
+            'endpoint' => array(
+                'token_endpoint_uri' => 'https://auth.example.com/token',
+                'authorization_endpoint_uri' => 'https://auth.example.com/authorize',
+            ),
+            'client' => array(
+                'credentials' => array(
+                    'client_id' => 's6BhdRkqt3',
+                    'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+                ),
+            ),
+        ));
+
+        $oauth2Client = new OAuth2Client($httpClient, $config);
+
+        $authorizationRequest = new AuthorizationRequest();
+        $authorizationRequest->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
+
+        $uri = $oauth2Client->buildAuthorizationRequestUri($authorizationRequest);
+
+        $this->assertSame('https://auth.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&scope=scope-token-1+scope-token-2', $uri);
     }
 } 
