@@ -5,12 +5,18 @@ use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use MostSignificantBit\OAuth2\Client\Grant\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse ;
+use MostSignificantBit\OAuth2\Client\Grant\AccessToken\SuccessfulResponseInterface;
+use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
+use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestInterface;
-use MostSignificantBit\OAuth2\Client\GrantType\GrantTypeInterface;
-use MostSignificantBit\OAuth2\Client\Http\Response;
-use MostSignificantBit\OAuth2\Client\Response\AccessToken;
-use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
+use MostSignificantBit\OAuth2\Client\Http\Response as HttpOAuth2Response;
+use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
+use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
+use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Http\ClientInterface as HttpClient;
+use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 
 class Client
 {
@@ -31,20 +37,21 @@ class Client
     }
 
     /**
-     * @param GrantTypeInterface $grantType
-     * @return AccessToken
+     * @param AccessTokenRequestAwareGrantInterface $grant
+     * @return SuccessfulResponseInterface
      * @throws TokenException
      * @throws InvalidArgumentException
      */
-    public function obtainAccessToken(GrantTypeInterface $grantType)
+    public function obtainAccessToken(AccessTokenRequestAwareGrantInterface $grant)
     {
         $params = array(
-            'body' => $grantType->getParams(),
+            'body' => $grant->getAccessTokenRequest()->getBodyParameters(),
             'credentials' => $this->config->getClientCredentials(),
         );
 
         $options = array(
             'authentication_type' => $this->config->getClientAuthenticationType(),
+            'client_type' => $this->config->getClientType(),
         );
 
         $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUri(), $params, $options);
@@ -53,22 +60,24 @@ class Client
             $this->throwTokenException($response);
         }
 
-        return $this->mapToAccessTokenResponse($response->getBody());
+        return $this->mapToAccessTokenSuccessfulResponse($response->getBody());
     }
 
     /**
      * @param AuthorizationRequestInterface $authorization
      * @throws InvalidArgumentException
      */
-    public function buildAuthorizationRequestUri(AuthorizationRequestInterface $authorization)
+    public function buildAuthorizationRequestUri(AuthorizationRequestAwareGrantInterface $grant)
     {
         $authorizationEndpointUri = $this->config->getAuthorizationEndpointUri();
 
-        Assertion::notNull($authorizationEndpointUri, 'Authorization endpoint uri is required to build uri.');
+        Assertion::notNull($authorizationEndpointUri, 'Authorization endpoint uri is required to build authorization request uri.');
 
-        $authorization->setClientId($this->config->getClientId());
+        $request = $grant->getAuthorizationRequest();
 
-        $query = http_build_query($authorization->getQueryParameters());
+        $request->setClientId($this->config->getClientId());
+
+        $query = http_build_query($request->getQueryParameters());
 
         return "{$authorizationEndpointUri}?{$query}";
     }
@@ -78,9 +87,9 @@ class Client
      * @throws Exception\TokenException
      * @throws Exception\InvalidArgumentException
      */
-    protected function throwTokenException(Response $response)
+    protected function throwTokenException(HttpOAuth2Response $errorResponse)
     {
-        $body = $response->getBody();
+        $body = $errorResponse->getBody();
 
         Assertion::keyExists($body, 'error', 'Error param in response body is required.');
 
@@ -94,27 +103,29 @@ class Client
     /**
      * @param array $body
      * @throws Exception\InvalidArgumentException
-     * @return AccessToken
+     * @return AccessTokenSuccessfulResponse
      */
-    protected function mapToAccessTokenResponse(array $body)
+    protected function mapToAccessTokenSuccessfulResponse(array $body)
     {
         Assertion::keyExists($body, 'access_token', 'Access token param in body is required.');
         Assertion::keyExists($body, 'token_type', 'Token type param in body is required.');
 
-        $accessTokenResponse = new AccessToken($body['access_token'], new AccessTokenType($body['token_type']));
+        $accessTokenSuccessfulResponse = new AccessTokenSuccessfulResponse(
+            new AccessToken($body['access_token']),
+            new TokenType($body['token_type']));
 
         if (array_key_exists('expires_in', $body)) {
-            $accessTokenResponse->setExpiresIn($body['expires_in']);
+            $accessTokenSuccessfulResponse->setExpiresIn(new ExpiresIn($body['expires_in']));
         }
 
         if (array_key_exists('refresh_token', $body)) {
-            $accessTokenResponse->setRefreshToken($body['refresh_token']);
+            $accessTokenSuccessfulResponse->setRefreshToken(new RefreshToken($body['refresh_token']));
         }
 
         if (array_key_exists('scope', $body)) {
-            $accessTokenResponse->setScope(explode(' ', $body['scope']));
+            $accessTokenSuccessfulResponse->setScope(Scope::fromParameter($body['scope']));
         }
 
-        return $accessTokenResponse;
+        return $accessTokenSuccessfulResponse;
     }
 } 

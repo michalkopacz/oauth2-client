@@ -36,4 +36,11 @@ class Scope
     {
         return implode($this->delimiter, $this->getScopeTokens());
     }
+
+    public static function fromParameter($scopeParameter, $delimiter = self::DEFAULT_SCOPE_TOKENS_DELIMITER)
+    {
+        $scopeTokens = explode($delimiter, $scopeParameter);
+
+        return new self($scopeTokens, $delimiter);
+    }
 } 

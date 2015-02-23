@@ -4,12 +4,21 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Integration;
 
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
-use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
+use MostSignificantBit\OAuth2\Client\Grant\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
+use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Http\Guzzle5Adapter;
-use MostSignificantBit\OAuth2\Client\Response\AccessToken;
-use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
+use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
+use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
+use MostSignificantBit\OAuth2\Client\Parameter\Password;
+use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
+use MostSignificantBit\OAuth2\Client\Parameter\Username;
 use Symfony\Component\Process\Process;
 
+/**
+ * @group integration
+ */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,15 +54,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $oauth2Client = new OAuth2Client($httpClient, $config);
 
-        $accessToken = new AccessToken('2YotnFZFEjr1zCsicMWpAA', AccessTokenType::BEARER());
-        $accessToken->setExpiresIn(3600);
-        $accessToken->setRefreshToken('tGzv3JOkF0XG5Qx2TlKWIA');
+        $accessTokenExpectedResponse = new AccessTokenSuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), TokenType::BEARER());
+        $accessTokenExpectedResponse->setExpiresIn(new ExpiresIn(3600));
+        $accessTokenExpectedResponse->setRefreshToken(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
 
-        $grantType = new ResourceOwnerPasswordCredentialsGrant('johndoe', 'A3ddj3w');
+        $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
+
+        $grantType = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
 
         $accessTokenResponse = $oauth2Client->obtainAccessToken($grantType);
 
-        $this->assertEquals($accessToken, $accessTokenResponse);
+        $this->assertEquals($accessTokenExpectedResponse, $accessTokenResponse);
     }
 
     public static function tearDownAfterClass()

@@ -1,5 +1,5 @@
 <?php
-namespace GrantType;
+namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Grant\ResourceOwnerPasswordCredentials;
 
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;

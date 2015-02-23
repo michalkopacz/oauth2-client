@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http;
 
-use Coduo\PHPMatcher\Exception\Exception;
 use GuzzleHttp\Client as GuzzleHttp;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 
@@ -39,7 +38,12 @@ class Guzzle5Adapter implements ClientInterface
 
         switch ($options['authentication_type']) {
             case Config::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE:
-                $requestOptions['body'] = array_merge($requestOptions['body'], $params['credentials']);
+                $requestOptions['body']['client_id'] = $params['credentials']['client_id'];
+
+                if ($options['client_type'] === Config::CLIENT_CONFIDENTIAL_TYPE) {
+                    $requestOptions['body']['client_secret'] = $params['credentials']['client_secret'];
+                }
+
                 break;
             case Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE:
                 $requestOptions['auth'] = array(
@@ -48,15 +52,15 @@ class Guzzle5Adapter implements ClientInterface
                 );
                 break;
             default:
-                throw new \Exception('Unrecognized client authentication type');
+                throw new \Exception('Unrecognized client authentication type.');
         }
 
         $response = $this->client->post($url, $requestOptions);
 
-        $oauth2Response = new Response();
-        $oauth2Response->setStatusCode($response->getStatusCode());
-        $oauth2Response->setBody($response->json());
+        $httpOAuth2Response = new Response();
+        $httpOAuth2Response->setStatusCode($response->getStatusCode());
+        $httpOAuth2Response->setBody($response->json());
 
-        return $oauth2Response;
+        return $httpOAuth2Response;
     }
 }

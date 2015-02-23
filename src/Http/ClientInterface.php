@@ -15,6 +15,10 @@ interface ClientInterface
      *   )
      * )
      * @param array $options
+     * array(
+     *   'authentication_type' =>
+     *   'client_type' =>
+     * )
      * @return Response
      */
     public function postAccessToken($url, array $params, array $options);

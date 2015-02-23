@@ -9,8 +9,6 @@ use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Http\Response;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
-use MostSignificantBit\OAuth2\Client\Response\AccessToken;
-use MostSignificantBit\OAuth2\Client\Response\AccessTokenType;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {

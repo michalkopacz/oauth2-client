@@ -1,7 +1,7 @@
 <?php
-namespace MostSignificantBit\OAuth2\Client\Grant;
+namespace MostSignificantBit\OAuth2\Client\Grant\AccessToken;
 
-interface AccessTokenRequestInterface
+interface RequestInterface
 {
     /**
      * @return array
