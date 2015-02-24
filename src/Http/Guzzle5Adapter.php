@@ -9,6 +9,8 @@
 namespace MostSignificantBit\OAuth2\Client\Http;
 
 use GuzzleHttp\Client as GuzzleHttp;
+use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 
 class Guzzle5Adapter implements ClientInterface
@@ -37,15 +39,15 @@ class Guzzle5Adapter implements ClientInterface
         );
 
         switch ($options['authentication_type']) {
-            case Config::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE:
+            case AuthenticationType::REQUEST_BODY:
                 $requestOptions['body']['client_id'] = $params['credentials']['client_id'];
 
-                if ($options['client_type'] === Config::CLIENT_CONFIDENTIAL_TYPE) {
+                if ($options['client_type'] === ClientType::CONFIDENTIAL_TYPE) {
                     $requestOptions['body']['client_secret'] = $params['credentials']['client_secret'];
                 }
 
                 break;
-            case Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE:
+            case AuthenticationType::HTTP_BASIC:
                 $requestOptions['auth'] = array(
                     $params['credentials']['client_id'],
                     $params['credentials']['client_secret'],

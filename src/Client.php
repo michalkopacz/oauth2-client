@@ -2,6 +2,7 @@
 namespace MostSignificantBit\OAuth2\Client;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
@@ -10,6 +11,7 @@ use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
+use MostSignificantBit\OAuth2\Client\Grant\GrantInterface;
 use MostSignificantBit\OAuth2\Client\Http\Response as HttpOAuth2Response;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
@@ -17,6 +19,7 @@ use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Http\ClientInterface as HttpClient;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
+use Zend\Stdlib\ArrayUtils;
 
 class Client
 {
@@ -44,6 +47,9 @@ class Client
      */
     public function obtainAccessToken(AccessTokenRequestAwareGrantInterface $grant)
     {
+
+        $this->checkIsGrantSupportClientType($grant, new ClientType($this->config->getClientType()));
+
         $params = array(
             'body' => $grant->getAccessTokenRequest()->getBodyParameters(),
             'credentials' => $this->config->getClientCredentials(),
@@ -80,6 +86,22 @@ class Client
         $query = http_build_query($request->getQueryParameters());
 
         return "{$authorizationEndpointUri}?{$query}";
+    }
+
+    protected function checkIsGrantSupportClientType(AccessTokenRequestAwareGrantInterface $grant, ClientType $clientType)
+    {
+        $isSupported = array_reduce($grant->getSupportedClientTypesForAuthentication(), function($isSupported = false, $supportedClientType) use ($clientType) {
+            $isSupported = ($isSupported === true || $supportedClientType->getValue() === $clientType->getValue());
+            return $isSupported;
+        });
+
+        if (!$isSupported) {
+            throw new InvalidArgumentException(sprintf(
+                "Unsupported client type '%s' for grant '%s'.",
+                $clientType->getValue(),
+                $grant->getAccessTokenRequest()->getGrantType()->getValue()
+            ),  0, null, null);
+        }
     }
 
     /**

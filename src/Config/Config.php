@@ -7,24 +7,18 @@ use Zend\Stdlib\ArrayUtils;
 
 class Config
 {
-    const CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE = 'http_basic';
-    const CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE = 'request_body';
-
-    const CLIENT_PUBLIC_TYPE = 'public';
-    const CLIENT_CONFIDENTIAL_TYPE = 'confidential';
-
     protected $config = array(
         'endpoint' => array(
             'token_endpoint_uri' => null,
             'authorization_endpoint_uri' => null,
         ),
         'client' => array(
-            'type' => self::CLIENT_CONFIDENTIAL_TYPE,
+            'type' => ClientType::CONFIDENTIAL_TYPE,
             'credentials' => array(
                 'client_id' => null,
                 'client_secret' => null,
             ),
-            'authentication_type' => self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
+            'authentication_type' => AuthenticationType::HTTP_BASIC,
         ),
     );
 
@@ -59,24 +53,24 @@ class Config
 
         Assertion::inArray(
             $clientType,
-            array(self::CLIENT_CONFIDENTIAL_TYPE, self::CLIENT_PUBLIC_TYPE),
+            array(ClientType::CONFIDENTIAL_TYPE, ClientType::PUBLIC_TYPE),
             "Client type must be set to 'confidential' or 'public'."
         );
 
         Assertion::inArray(
             $clientAuthenticationType,
-            array(self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE, self::CLIENT_REQUEST_BODY_AUTHENTICATION_TYPE),
+            array(AuthenticationType::HTTP_BASIC, AuthenticationType::REQUEST_BODY),
             "Client authentication type must be set to 'http_basic' or 'request_body'."
         );
 
-        if ($clientType === self::CLIENT_PUBLIC_TYPE && $clientAuthenticationType === self::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE) {
+        if ($clientType === ClientType::PUBLIC_TYPE && $clientAuthenticationType === AuthenticationType::REQUEST_BODY) {
             throw new InvalidArgumentException("HTTP basic authentication type is not allowed for public client.", 0, null, null);
         }
 
         Assertion::keyExists($config['client'], 'credentials', 'Client credentials section is required.');
         Assertion::keyExists($config['client']['credentials'], 'client_id', 'Client id is required.');
 
-        if ($clientType === self::CLIENT_CONFIDENTIAL_TYPE) {
+        if ($clientType === ClientType::CONFIDENTIAL_TYPE) {
             Assertion::keyExists($config['client']['credentials'], 'client_secret', 'Client secret is required for confidential client type.');
         }
 

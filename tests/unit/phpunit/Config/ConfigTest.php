@@ -9,6 +9,7 @@
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Config;
 
 
-class ConfigTest {
+class ConfigTest extends \PHPUnit_Framework_TestCase
+{
 
 } 

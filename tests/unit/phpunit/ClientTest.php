@@ -1,6 +1,8 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
+use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
@@ -52,8 +54,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     )
                 )),
                 $this->equalTo(array(
-                    'authentication_type' => Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
-                    'client_type' => Config::CLIENT_CONFIDENTIAL_TYPE,
+                    'authentication_type' => AuthenticationType::HTTP_BASIC,
+                    'client_type' => ClientType::CONFIDENTIAL_TYPE,
                 ))
             )
             ->willReturn($oauth2Response);
@@ -109,8 +111,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     )
                 )),
                 $this->equalTo(array(
-                    'authentication_type' => Config::CLIENT_HTTP_BASIC_AUTHENTICATION_TYPE,
-                    'client_type' => Config::CLIENT_CONFIDENTIAL_TYPE,
+                    'authentication_type' => AuthenticationType::HTTP_BASIC,
+                    'client_type' => ClientType::CONFIDENTIAL_TYPE,
                 ))
             )
             ->willReturn($oauth2Response);

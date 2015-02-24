@@ -2,6 +2,7 @@
 namespace MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 
@@ -35,5 +36,13 @@ class ResourceOwnerPasswordCredentialsGrant implements AccessTokenRequestAwareGr
     public function getAccessTokenRequest()
     {
         return $this->accessTokenRequest;
+    }
+
+    /**
+     * @return ClientType[]
+     */
+    public function getSupportedClientTypesForAuthentication()
+    {
+        return array(ClientType::PUBLIC_TYPE(), ClientType::CONFIDENTIAL_TYPE());
     }
 }
