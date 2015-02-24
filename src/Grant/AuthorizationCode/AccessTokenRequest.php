@@ -1,7 +1,7 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode;
 
-use MostSignificantBit\OAuth2\Client\Grant\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Parameter\Code;
 use MostSignificantBit\OAuth2\Client\Parameter\GrantType;
 use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;

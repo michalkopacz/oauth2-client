@@ -1,5 +1,5 @@
 <?php
-namespace MostSignificantBit\OAuth2\Client\Grant\Authorization;
+namespace MostSignificantBit\OAuth2\Client\Authorization;
 
 interface AuthorizationRequestInterface
 {

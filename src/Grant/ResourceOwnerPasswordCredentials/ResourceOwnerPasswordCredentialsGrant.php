@@ -3,7 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredential
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
-use MostSignificantBit\OAuth2\Client\Grant\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 
 class ResourceOwnerPasswordCredentialsGrant implements AccessTokenRequestAwareGrantInterface
 {
@@ -12,9 +12,11 @@ class ResourceOwnerPasswordCredentialsGrant implements AccessTokenRequestAwareGr
      */
     protected $accessTokenRequest;
 
-    public function __construct(AccessTokenRequest $request)
+    public function __construct(AccessTokenRequest $accessTokenRequest = null)
     {
-        $this->setAccessTokenRequest($request);
+        if ($accessTokenRequest !== null) {
+            $this->setAccessTokenRequest($accessTokenRequest);
+        }
     }
 
     /**

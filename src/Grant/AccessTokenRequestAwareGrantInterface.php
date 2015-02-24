@@ -8,7 +8,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant;
 
-use MostSignificantBit\OAuth2\Client\Grant\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 
 interface AccessTokenRequestAwareGrantInterface extends GrantInterface
 {

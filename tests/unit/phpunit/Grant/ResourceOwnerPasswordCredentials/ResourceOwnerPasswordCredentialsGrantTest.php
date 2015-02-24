@@ -1,21 +1,29 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Grant\ResourceOwnerPasswordCredentials;
 
-use MostSignificantBit\OAuth2\Client\GrantType\ResourceOwnerPasswordCredentialsGrant;
-use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
+use MostSignificantBit\OAuth2\Client\Parameter\Password;
+use MostSignificantBit\OAuth2\Client\Parameter\Username;
 
 class ResourceOwnerPasswordCredentialsGrantTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetParams()
+    public function testSetAccessTokenRequestByConstructor()
     {
-        $grant = new ResourceOwnerPasswordCredentialsGrant('johndoe', 'A3ddj3w');
-        $grant->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
+        $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
 
-        $this->assertSame(array(
-            'grant_type' => 'password',
-            'username' => 'johndoe',
-            'password' => 'A3ddj3w',
-            'scope' => 'scope-token-1 scope-token-2',
-        ), $grant->getParams());
+        $grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
+
+        $this->assertSame($accessTokenRequest, $grant->getAccessTokenRequest());
+    }
+
+    public function testSetAccessTokenRequestBySetter()
+    {
+        $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
+
+        $grant = new ResourceOwnerPasswordCredentialsGrant();
+        $grant->setAccessTokenRequest($accessTokenRequest);
+
+        $this->assertSame($accessTokenRequest, $grant->getAccessTokenRequest());
     }
 } 

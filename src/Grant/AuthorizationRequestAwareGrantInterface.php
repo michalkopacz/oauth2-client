@@ -8,7 +8,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant;
 
-use MostSignificantBit\OAuth2\Client\Grant\Authorization\AuthorizationRequestInterface;
+use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
 
 interface AuthorizationRequestAwareGrantInterface extends GrantInterface
 {

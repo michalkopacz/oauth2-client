@@ -1,5 +1,5 @@
 <?php
-namespace MostSignificantBit\OAuth2\Client\Grant\Authorization;
+namespace MostSignificantBit\OAuth2\Client\Authorization;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;

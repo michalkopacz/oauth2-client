@@ -3,7 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
-use MostSignificantBit\OAuth2\Client\Grant\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
+use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AuthorizationCodeGrant;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;

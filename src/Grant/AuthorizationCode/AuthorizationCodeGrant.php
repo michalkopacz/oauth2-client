@@ -8,10 +8,10 @@
 namespace MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
-use MostSignificantBit\OAuth2\Client\Grant\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
-use MostSignificantBit\OAuth2\Client\Grant\Authorization\AuthorizationRequestInterface;
+use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
 
 class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface, AuthorizationRequestAwareGrantInterface
 {
@@ -41,7 +41,7 @@ class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface, A
      */
     public function setAccessTokenRequest(AccessTokenRequestInterface $request)
     {
-        Assertion::isInstanceOf($request, '\MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AccessTokenRequest');
+        Assertion::isInstanceOf($request, '\MostSignificantBit\OAuth2\Client\AuthorizationCode\AccessTokenRequest');
 
         $this->accessTokenRequest = $request;
     }

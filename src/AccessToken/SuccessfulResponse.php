@@ -1,5 +1,5 @@
 <?php
-namespace MostSignificantBit\OAuth2\Client\Grant\AccessToken;
+namespace MostSignificantBit\OAuth2\Client\AccessToken;
 
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
