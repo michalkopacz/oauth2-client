@@ -54,4 +54,4 @@ interface AuthorizationRequestInterface
      * @return array
      */
     public function getQueryParameters();
-} 
+}

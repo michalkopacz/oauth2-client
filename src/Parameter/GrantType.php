@@ -13,28 +13,32 @@ class GrantType extends Enum
     /**
      * @return GrantType
      */
-    public static function AUTHORIZATION_CODE() {
+    public static function AUTHORIZATION_CODE()
+    {
         return new GrantType(self::AUTHORIZATION_CODE);
     }
 
     /**
      * @return GrantType
      */
-    public static function PASSWORD() {
+    public static function PASSWORD()
+    {
         return new GrantType(self::PASSWORD);
     }
 
     /**
      * @return GrantType
      */
-    public static function REFRESH_TOKEN() {
+    public static function REFRESH_TOKEN()
+    {
         return new GrantType(self::REFRESH_TOKEN);
     }
 
     /**
      * @return GrantType
      */
-    public static function CLIENT_CREDENTIALS() {
+    public static function CLIENT_CREDENTIALS()
+    {
         return new GrantType(self::CLIENT_CREDENTIALS);
     }
-} 
+}

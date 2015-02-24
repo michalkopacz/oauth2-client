@@ -14,4 +14,4 @@ interface RequestInterface
      * @return GrantType
      */
     public function getGrantType();
-} 
+}

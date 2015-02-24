@@ -6,4 +6,4 @@ use Assert\InvalidArgumentException as BaseInvalidArgumentException;
 class InvalidArgumentException extends BaseInvalidArgumentException implements OAuth2ClientExceptionInterface
 {
 
-} 
+}

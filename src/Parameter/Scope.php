@@ -43,4 +43,4 @@ class Scope
 
         return new self($scopeTokens, $delimiter);
     }
-} 
+}

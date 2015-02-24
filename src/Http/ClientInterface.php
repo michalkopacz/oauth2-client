@@ -1,7 +1,6 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Http;
 
-
 interface ClientInterface
 {
     /**
@@ -22,4 +21,4 @@ interface ClientInterface
      * @return Response
      */
     public function postAccessToken($url, array $params, array $options);
-} 
+}

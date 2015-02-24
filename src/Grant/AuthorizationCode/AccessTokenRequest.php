@@ -45,49 +45,49 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     /**
      * @param Code $code
      */
-    public function setCode($code)
-    {
-        $this->code = $code;
-    }
+        public function setCode($code)
+        {
+            $this->code = $code;
+        }
 
     /**
      * @return Code
      */
-    public function getCode()
-    {
-        return $this->code;
-    }
+        public function getCode()
+        {
+            return $this->code;
+        }
 
     /**
      * @param RedirectUri $redirectUri
      */
-    public function setRedirectUri($redirectUri)
-    {
-        $this->redirectUri = $redirectUri;
-    }
+        public function setRedirectUri($redirectUri)
+        {
+            $this->redirectUri = $redirectUri;
+        }
 
     /**
      * @return RedirectUri
      */
-    public function getRedirectUri()
-    {
-        return $this->redirectUri;
-    }
+        public function getRedirectUri()
+        {
+            return $this->redirectUri;
+        }
 
     /**
      * @return array
      */
-    public function getBodyParameters()
-    {
-        $parameters = array(
+        public function getBodyParameters()
+        {
+            $parameters = array(
             'grant_type' => $this->getGrantType()->getValue(),
             'code' => $this->getCode()->getValue(),
-        );
+            );
 
-        if (isset($this->redirectUri)) {
-            $parameters['redirect_uri'] = $this->getRedirectUri()->getValue();
+            if (isset($this->redirectUri)) {
+                $parameters['redirect_uri'] = $this->getRedirectUri()->getValue();
+            }
+
+            return $parameters;
         }
-
-        return $parameters;
-    }
-} 
+}

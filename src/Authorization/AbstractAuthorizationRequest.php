@@ -127,4 +127,4 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
 
         return $params;
     }
-} 
+}

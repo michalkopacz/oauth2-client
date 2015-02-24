@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-
 class Code extends AbstractSingleParameter
 {
     /**
@@ -18,4 +17,4 @@ class Code extends AbstractSingleParameter
     {
         $this->setValue($code);
     }
-} 
+}

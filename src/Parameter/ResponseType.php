@@ -11,14 +11,16 @@ class ResponseType extends Enum
     /**
      * @return ResponseType
      */
-    public static function CODE() {
+    public static function CODE()
+    {
         return new ResponseType(self::CODE);
     }
 
     /**
      * @return ResponseType
      */
-    public static function TOKEN() {
+    public static function TOKEN()
+    {
         return new ResponseType(self::TOKEN);
     }
-} 
+}

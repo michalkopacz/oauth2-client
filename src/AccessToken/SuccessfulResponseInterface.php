@@ -52,4 +52,4 @@ interface SuccessfulResponseInterface
      * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
      */
     public function getScope();
-} 
+}

@@ -10,7 +10,8 @@ class TokenType extends Enum
     /**
      * @return TokenType
      */
-    public static function BEARER() {
+    public static function BEARER()
+    {
         return new TokenType(self::BEARER);
     }
-} 
+}

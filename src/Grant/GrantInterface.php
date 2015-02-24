@@ -10,4 +10,4 @@ interface GrantInterface
      * @return ClientType[]
      */
     public function getSupportedClientTypesForAuthentication();
-} 
+}

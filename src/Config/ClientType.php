@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Config;
 
-
 use MyCLabs\Enum\Enum;
 
 class ClientType extends Enum
@@ -19,14 +18,16 @@ class ClientType extends Enum
     /**
      * @return ClientType
      */
-    public static function PUBLIC_TYPE() {
+    public static function PUBLIC_TYPE()
+    {
         return new ClientType(self::PUBLIC_TYPE);
     }
 
     /**
      * @return ClientType
      */
-    public static function CONFIDENTIAL_TYPE() {
+    public static function CONFIDENTIAL_TYPE()
+    {
         return new ClientType(self::CONFIDENTIAL_TYPE);
     }
-} 
+}

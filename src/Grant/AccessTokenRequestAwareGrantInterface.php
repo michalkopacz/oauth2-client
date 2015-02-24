@@ -21,4 +21,4 @@ interface AccessTokenRequestAwareGrantInterface extends GrantInterface
      * @return AccessTokenRequestInterface
      */
     public function getAccessTokenRequest();
-} 
+}

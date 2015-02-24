@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 
 class AbstractSingleParameter
@@ -31,4 +30,4 @@ class AbstractSingleParameter
     {
         return $this->value;
     }
-} 
+}

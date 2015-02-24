@@ -119,4 +119,4 @@ class SuccessfulResponse implements SuccessfulResponseInterface
     {
         return $this->tokenType;
     }
-} 
+}

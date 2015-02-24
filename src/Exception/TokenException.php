@@ -73,5 +73,4 @@ class TokenException extends \Exception implements OAuth2ClientExceptionInterfac
 
         return constant("self::$codeConst");
     }
-
-} 
+}

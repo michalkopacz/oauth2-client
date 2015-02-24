@@ -6,4 +6,4 @@ use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessToken
 
 abstract class AbstractRequest implements AccessTokenRequestInterface
 {
-} 
+}

@@ -11,7 +11,6 @@ use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
-use MostSignificantBit\OAuth2\Client\Grant\GrantInterface;
 use MostSignificantBit\OAuth2\Client\Http\Response as HttpOAuth2Response;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
@@ -19,7 +18,6 @@ use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Http\ClientInterface as HttpClient;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
-use Zend\Stdlib\ArrayUtils;
 
 class Client
 {
@@ -100,7 +98,7 @@ class Client
                 "Unsupported client type '%s' for grant '%s'.",
                 $clientType->getValue(),
                 $grant->getAccessTokenRequest()->getGrantType()->getValue()
-            ),  0, null, null);
+            ), 0, null, null);
         }
     }
 
@@ -134,7 +132,8 @@ class Client
 
         $accessTokenSuccessfulResponse = new AccessTokenSuccessfulResponse(
             new AccessToken($body['access_token']),
-            new TokenType($body['token_type']));
+            new TokenType($body['token_type'])
+        );
 
         if (array_key_exists('expires_in', $body)) {
             $accessTokenSuccessfulResponse->setExpiresIn(new ExpiresIn($body['expires_in']));
@@ -150,4 +149,4 @@ class Client
 
         return $accessTokenSuccessfulResponse;
     }
-} 
+}

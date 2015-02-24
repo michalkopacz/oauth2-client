@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-
 class RefreshToken extends AbstractSingleParameter
 {
     /**

@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http;
 
-
 class Response
 {
     /**

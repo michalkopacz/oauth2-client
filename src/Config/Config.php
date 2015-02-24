@@ -132,4 +132,4 @@ class Config
     {
         return $this->config['client']['authentication_type'];
     }
-} 
+}

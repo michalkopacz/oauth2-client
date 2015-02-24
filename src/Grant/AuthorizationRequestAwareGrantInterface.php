@@ -21,4 +21,4 @@ interface AuthorizationRequestAwareGrantInterface extends GrantInterface
      * @return AuthorizationRequestInterface
      */
     public function getAuthorizationRequest();
-} 
+}

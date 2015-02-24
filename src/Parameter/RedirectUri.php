@@ -8,7 +8,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-
 class RedirectUri extends AbstractSingleParameter
 {
     /**
@@ -18,4 +17,4 @@ class RedirectUri extends AbstractSingleParameter
     {
         $this->setValue($redirectUri);
     }
-} 
+}
