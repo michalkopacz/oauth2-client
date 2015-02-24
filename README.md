@@ -28,10 +28,10 @@ $oauth2Client = new OAuth2Client($httpClient, $config);
 
 $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
 
-$grantType = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
+$grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
 
 try {
-    $accessTokenResponse = $oauth2Client->obtainAccessToken($grantType);
+    $accessTokenResponse = $oauth2Client->obtainAccessToken($grant);
 } catch (TokenException $exception) {
     //log exception
 }

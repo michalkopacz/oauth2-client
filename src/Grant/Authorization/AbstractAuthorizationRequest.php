@@ -1,8 +1,10 @@
 <?php
-namespace MostSignificantBit\OAuth2\Client\Grant;
+namespace MostSignificantBit\OAuth2\Client\Grant\Authorization;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+use MostSignificantBit\OAuth2\Client\Parameter\State;
 
 abstract class AbstractAuthorizationRequest implements AuthorizationRequestInterface
 {
@@ -16,7 +18,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     /**
      * OAuth2: OPTIONAL
      *
-     * @var string
+     * @var RedirectUri
      */
     protected $redirectUri;
 
@@ -30,18 +32,11 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     /**
      * OAuth2: RECOMMENDED
      *
-     * @var ResponseType
+     * @var State
      */
     protected $state;
 
     /**
-     * @return ResponseType
-     */
-    abstract public function getResponseType();
-
-    /**
-     * ClientId is required, but we set it in \MostSignificantBit\OAuth2\Client\Client from config;
-     *
      * @param string $clientId
      */
     public function setClientId($clientId)
@@ -58,7 +53,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @param string $redirectUri
+     * @param \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri $redirectUri
      */
     public function setRedirectUri($redirectUri)
     {
@@ -66,7 +61,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @return string
+     * @return \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri
      */
     public function getRedirectUri()
     {
@@ -90,7 +85,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Grant\ResponseType $state
+     * @param \MostSignificantBit\OAuth2\Client\Parameter\State $state
      */
     public function setState($state)
     {
@@ -98,7 +93,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Grant\ResponseType
+     * @return \MostSignificantBit\OAuth2\Client\Parameter\State
      */
     public function getState()
     {

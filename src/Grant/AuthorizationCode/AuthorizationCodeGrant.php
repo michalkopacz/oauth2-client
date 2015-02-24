@@ -10,22 +10,34 @@ namespace MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode;
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Grant\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
+use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
+use MostSignificantBit\OAuth2\Client\Grant\Authorization\AuthorizationRequestInterface;
 
-class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface
+class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface, AuthorizationRequestAwareGrantInterface
 {
-
     /**
-     * @var AccessTokenRequest $request
+     * @var AccessTokenRequest $accessTokenRequest
      */
     protected $accessTokenRequest;
 
-    public function __construct(AccessTokenRequest $request)
+    /**
+     * @var AuthorizationRequest $authorizationRequest
+     */
+    protected $authorizationRequest;
+
+    public function __construct(AccessTokenRequest $accessTokenRequest = null, AuthorizationRequest $authorizationRequest = null)
     {
-        $this->setAccessTokenRequest($request);
+        if ($accessTokenRequest !== null) {
+            $this->setAccessTokenRequest($accessTokenRequest);
+        }
+
+        if ($authorizationRequest !== null) {
+            $this->setAuthorizationRequest($authorizationRequest);
+        }
     }
 
     /**
-     * @param AccessTokenRequestInterface $request
+     * @param AuthorizationRequest $request
      */
     public function setAccessTokenRequest(AccessTokenRequestInterface $request)
     {
@@ -40,5 +52,21 @@ class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface
     public function getAccessTokenRequest()
     {
         return $this->accessTokenRequest;
+    }
+
+    /**
+     * @param AuthorizationRequest $request
+     */
+    public function setAuthorizationRequest(AuthorizationRequestInterface $request)
+    {
+        $this->authorizationRequest = $request;
+    }
+
+    /**
+     * @return AuthorizationRequest
+     */
+    public function getAuthorizationRequest()
+    {
+        return $this->authorizationRequest;
     }
 }

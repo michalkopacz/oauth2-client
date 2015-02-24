@@ -8,12 +8,14 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant;
 
+use MostSignificantBit\OAuth2\Client\Grant\Authorization\AuthorizationRequestInterface;
+
 interface AuthorizationRequestAwareGrantInterface extends GrantInterface
 {
     /**
      * @param AuthorizationRequestInterface $request
      */
-    public function setAuthorizationRequest($request);
+    public function setAuthorizationRequest(AuthorizationRequestInterface $request);
 
     /**
      * @return AuthorizationRequestInterface

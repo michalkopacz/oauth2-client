@@ -60,9 +60,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
 
-        $grantType = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
+        $grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
 
-        $accessTokenResponse = $oauth2Client->obtainAccessToken($grantType);
+        $accessTokenResponse = $oauth2Client->obtainAccessToken($grant);
 
         $this->assertEquals($accessTokenExpectedResponse, $accessTokenResponse);
     }
