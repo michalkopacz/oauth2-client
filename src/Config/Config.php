@@ -3,6 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Config;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use Zend\Stdlib\ArrayUtils;
 
 class Config
@@ -20,6 +21,11 @@ class Config
             ),
             'authentication_type' => AuthenticationType::HTTP_BASIC,
         ),
+        'parameters' => array(
+               'scope' => array(
+                   'delimiter' => Scope::DEFAULT_SCOPE_TOKENS_DELIMITER,
+               ),
+        ),
     );
 
     /**
@@ -36,6 +42,11 @@ class Config
      *              'client_secret' => REQUIRED if type is 'confidential'
      *          ),
      *          'authentication_type' => DEFAULT 'http_basic'
+     *      ),
+     *      'parameters' => array(
+     *          'scope' => array(
+     *              'delimiter' =>
+     *          ),
      *      ),
      * }
      */
