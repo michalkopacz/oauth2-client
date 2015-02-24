@@ -3,6 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Config;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
+use Zend\Stdlib\ArrayUtils;
 
 class Config
 {
@@ -79,28 +80,7 @@ class Config
             Assertion::keyExists($config['client']['credentials'], 'client_secret', 'Client secret is required for confidential client type.');
         }
 
-        $this->config = $this->merge($this->config, $config);
-    }
-
-    /**
-     * Copy form Zf2 stdlib, because we want to have compatibility with php 5.3.0
-     * @link https://github.com/zendframework/zf2/blob/master/library/Zend/Stdlib/ArrayUtils.php
-     */
-    public function merge(array $a, array $b)
-    {
-        foreach ($b as $key => $value) {
-            if (isset($a[$key]) || array_key_exists($key, $a)) {
-                if (is_array($value) && is_array($a[$key])) {
-                    $a[$key] = $this->merge($a[$key], $value);
-                } else {
-                    $a[$key] = $value;
-                }
-            } else {
-                $a[$key] = $value;
-            }
-        }
-
-        return $a;
+        $this->config = ArrayUtils::merge($this->config, $config);
     }
 
     /**
