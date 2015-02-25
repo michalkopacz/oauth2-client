@@ -24,7 +24,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
      */
     protected $scope;
 
-    function __construct($refreshToken)
+    function __construct(RefreshToken $refreshToken)
     {
         $this->setRefreshToken($refreshToken);
     }
@@ -40,7 +40,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     /**
      * @param \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken $refreshToken
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken(RefreshToken $refreshToken)
     {
         $this->refreshToken = $refreshToken;
     }
@@ -56,7 +56,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     /**
      * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
      */
-    public function setScope($scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
