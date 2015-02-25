@@ -1,6 +1,7 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client;
 
+use Ivory\HttpAdapter\CurlHttpAdapter;
 use Ivory\HttpAdapter\HttpAdapterInterface;
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
@@ -22,7 +23,7 @@ use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 class Client
 {
     /**
-     * @var HttpClient
+     * @var HttpAdapterInterface
      */
     protected $httpClient;
 
@@ -31,7 +32,7 @@ class Client
      */
     protected $config;
 
-    public function __construct(HttpAdapterInterface $httpClient, Config $config)
+    public function __construct(Config $config, HttpAdapterInterface $httpClient = null)
     {
         $this->httpClient = $httpClient;
         $this->config = $config;
@@ -45,7 +46,6 @@ class Client
      */
     public function obtainAccessToken(AccessTokenRequestAwareGrantInterface $grant)
     {
-
         $this->checkIsGrantSupportClientType($grant, new ClientType($this->config->getClientType()));
 
         $headers = array();
@@ -68,7 +68,7 @@ class Client
                 throw new \Exception('Unrecognized client authentication type.');
         }
 
-        $response = $this->httpClient->post($this->config->getTokenEndpointUri(), $headers, $bodyParams);
+        $response = $this->getHttpClient()->post($this->config->getTokenEndpointUri(), $headers, $bodyParams);
 
         if ($response->getStatusCode() !== 200) {
             $this->throwTokenException($response);
@@ -96,6 +96,18 @@ class Client
         $query = http_build_query($request->getQueryParameters());
 
         return "{$authorizationEndpointUri}?{$query}";
+    }
+
+    /**
+     * @return HttpAdapterInterface
+     */
+    protected function getHttpClient()
+    {
+        if ($this->httpClient === null) {
+            $this->httpClient = new CurlHttpAdapter();
+        }
+
+        return $this->httpClient;
     }
 
     protected function getBasicAuth()

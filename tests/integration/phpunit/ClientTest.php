@@ -38,8 +38,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAccessTokenResourceOwnerPasswordCredentialsGrant()
     {
-        $httpClient = new GuzzleHttpHttpAdapter(new \GuzzleHttp\Client());
-
         $config = new Config(array(
             'endpoint' => array(
                 'token_endpoint_uri' => 'http://127.0.0.1:8000/oauth2/token',
@@ -52,7 +50,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ),
         ));
 
-        $oauth2Client = new OAuth2Client($httpClient, $config);
+        $oauth2Client = new OAuth2Client($config);
 
         $accessTokenExpectedResponse = new AccessTokenSuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), TokenType::BEARER());
         $accessTokenExpectedResponse->setExpiresIn(new ExpiresIn(3600));

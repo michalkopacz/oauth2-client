@@ -70,7 +70,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->getConfig();
 
-        $oauth2Client = new OAuth2Client($httpClient, $config);
+        $oauth2Client = new OAuth2Client($config, $httpClient);
 
         $accessTokenExpectedResponse = new AccessTokenSuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), TokenType::BEARER());
         $accessTokenExpectedResponse->setExpiresIn(new ExpiresIn(3600));
@@ -136,7 +136,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->getConfig();
 
-        $oauth2Client = new OAuth2Client($httpClient, $config);
+        $oauth2Client = new OAuth2Client($config, $httpClient);
 
         $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('wrong_password'));
 
@@ -153,11 +153,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAuthorizationRequestUriForCodeResponseType()
     {
-        $httpClient = $this->getHttpClientMock();
-
         $config = $this->getConfig();
 
-        $oauth2Client = new OAuth2Client($httpClient, $config);
+        $oauth2Client = new OAuth2Client($config);
 
         $authorizationRequest = new AuthorizationRequest();
         $authorizationRequest->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
