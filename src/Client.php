@@ -13,12 +13,10 @@ use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
-use MostSignificantBit\OAuth2\Client\Http\Response as HttpOAuth2Response;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
-use MostSignificantBit\OAuth2\Client\Http\ClientInterface as HttpClient;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 
 class Client
@@ -129,9 +127,9 @@ class Client
      * @throws Exception\TokenException
      * @throws Exception\InvalidArgumentException
      */
-    protected function throwTokenException( $errorResponse)
+    protected function throwTokenException($errorResponse)
     {
-        $body = $errorResponse->getBody();
+        $body = json_decode($errorResponse->getBody()->getContents(), true);
 
         Assertion::keyExists($body, 'error', 'Error param in response body is required.');
 

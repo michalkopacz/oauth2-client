@@ -10,7 +10,6 @@ use MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AuthorizationCodeGr
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AuthorizationRequest;
-use MostSignificantBit\OAuth2\Client\Http\Response;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
@@ -28,9 +27,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $httpClient = $this->getHttpClientMock();
 
-        $oauth2Response = new Response();
-        $oauth2Response->setStatusCode(200);
-        $oauth2Response->setBody(array(
+        $oauth2Response = $this->getResponseMock();
+
+        $oauth2Response->expects($this->once())
+            ->method('getStatusCode')
+            ->willReturn(200);
+
+        $body = json_encode(array(
             'access_token' => '2YotnFZFEjr1zCsicMWpAA',
             'token_type' => 'Bearer',
             'expires_in' => 3600,
@@ -38,24 +41,29 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'scope' => 'example1 example2',
         ));
 
+        $streamable = $this->getMockBuilder('\Psr\Http\Message\StreamableInterface')
+            ->setMethods(array('getContents'))
+            ->getMockForAbstractClass();
+
+        $streamable->expects($this->once())
+            ->method('getContents')
+            ->willReturn($body);
+
+        $oauth2Response->expects($this->once())
+            ->method('getBody')
+            ->willReturn($streamable);
+
         $httpClient->expects($this->once())
-            ->method('postAccessToken')
+            ->method('post')
             ->with(
                 $this->equalTo('https://auth.example.com/token'),
                 $this->equalTo(array(
-                    'body' => array(
-                        'grant_type' => 'password',
-                        'username' => 'johndoe',
-                        'password' => 'A3ddj3w',
-                    ),
-                    'credentials' => array(
-                        'client_id' => 's6BhdRkqt3',
-                        'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
-                    )
+                    'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
                 )),
                 $this->equalTo(array(
-                    'authentication_type' => AuthenticationType::HTTP_BASIC,
-                    'client_type' => ClientType::CONFIDENTIAL_TYPE,
+                    'grant_type' => 'password',
+                    'username' => 'johndoe',
+                    'password' => 'A3ddj3w',
                 ))
             )
             ->willReturn($oauth2Response);
@@ -87,32 +95,41 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $httpClient = $this->getHttpClientMock();
 
-        $oauth2Response = new Response();
-        $oauth2Response->setStatusCode(400);
-        $oauth2Response->setBody(array(
+        $oauth2Response = $this->getResponseMock();
+
+        $oauth2Response->expects($this->once())
+            ->method('getStatusCode')
+            ->willReturn(400);
+
+        $body = json_encode(array(
             'error' => 'invalid_request',
             'error_description' => 'Invalid request',
             'error_uri' => 'https://auth.example.com/oauth2/errors/invalid_request'
         ));
 
+        $streamable = $this->getMockBuilder('\Psr\Http\Message\StreamableInterface')
+            ->setMethods(array('getContents'))
+            ->getMockForAbstractClass();
+
+        $streamable->expects($this->once())
+            ->method('getContents')
+            ->willReturn($body);
+
+        $oauth2Response->expects($this->once())
+            ->method('getBody')
+            ->willReturn($streamable);
+
         $httpClient->expects($this->once())
-            ->method('postAccessToken')
+            ->method('post')
             ->with(
                 $this->equalTo('https://auth.example.com/token'),
                 $this->equalTo(array(
-                    'body' => array(
-                        'grant_type' => 'password',
-                        'username' => 'johndoe',
-                        'password' => 'wrong_password',
-                    ),
-                    'credentials' => array(
-                        'client_id' => 's6BhdRkqt3',
-                        'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
-                    )
+                    'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
                 )),
                 $this->equalTo(array(
-                    'authentication_type' => AuthenticationType::HTTP_BASIC,
-                    'client_type' => ClientType::CONFIDENTIAL_TYPE,
+                    'grant_type' => 'password',
+                    'username' => 'johndoe',
+                    'password' => 'wrong_password',
                 ))
             )
             ->willReturn($oauth2Response);
@@ -154,8 +171,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     protected function getHttpClientMock()
     {
-        return $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ClientInterface')
-            ->setMethods(array('postAccessToken'))
+        return $this->getMockBuilder('\Ivory\HttpAdapter\HttpAdapterInterface')
+            ->setMethods(array('post'))
+            ->getMockForAbstractClass();
+    }
+
+    protected function getResponseMock()
+    {
+        return $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+            ->setMethods(array('getBody', 'getStatusCode'))
             ->getMockForAbstractClass();
     }
 
