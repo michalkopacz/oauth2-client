@@ -1,7 +1,9 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client;
 
+use Ivory\HttpAdapter\HttpAdapterInterface;
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
@@ -31,7 +33,7 @@ class Client
      */
     protected $config;
 
-    public function __construct(HttpClient $httpClient, Config $config)
+    public function __construct(HttpAdapterInterface $httpClient, Config $config)
     {
         $this->httpClient = $httpClient;
         $this->config = $config;
@@ -48,23 +50,35 @@ class Client
 
         $this->checkIsGrantSupportClientType($grant, new ClientType($this->config->getClientType()));
 
-        $params = array(
-            'body' => $grant->getAccessTokenRequest()->getBodyParameters(),
-            'credentials' => $this->config->getClientCredentials(),
-        );
+        $headers = array();
 
-        $options = array(
-            'authentication_type' => $this->config->getClientAuthenticationType(),
-            'client_type' => $this->config->getClientType(),
-        );
+        $bodyParams = $grant->getAccessTokenRequest()->getBodyParameters();
 
-        $response = $this->httpClient->postAccessToken($this->config->getTokenEndpointUri(), $params, $options);
+        switch ($this->config->getClientAuthenticationType()) {
+            case AuthenticationType::REQUEST_BODY:
+                $body['client_id'] = $this->config->getClientId();
+
+                if ($this->config->getClientType() === ClientType::CONFIDENTIAL_TYPE) {
+                    $body['client_secret'] = $this->config->getClientSecret();
+                }
+
+                break;
+            case AuthenticationType::HTTP_BASIC:
+                $headers['Authorization'] = $this->getBasicAuth();
+                break;
+            default:
+                throw new \Exception('Unrecognized client authentication type.');
+        }
+
+        $response = $this->httpClient->post($this->config->getTokenEndpointUri(), $headers, $bodyParams);
 
         if ($response->getStatusCode() !== 200) {
             $this->throwTokenException($response);
         }
 
-        return $this->mapToAccessTokenSuccessfulResponse($response->getBody());
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+
+        return $this->mapToAccessTokenSuccessfulResponse($responseBody);
     }
 
     /**
@@ -84,6 +98,14 @@ class Client
         $query = http_build_query($request->getQueryParameters());
 
         return "{$authorizationEndpointUri}?{$query}";
+    }
+
+    protected function getBasicAuth()
+    {
+        $userId   = $this->config->getClientId();
+        $password = $this->config->getClientSecret();
+
+        return "Basic " . base64_encode("$userId:$password");
     }
 
     protected function checkIsGrantSupportClientType(AccessTokenRequestAwareGrantInterface $grant, ClientType $clientType)
@@ -107,7 +129,7 @@ class Client
      * @throws Exception\TokenException
      * @throws Exception\InvalidArgumentException
      */
-    protected function throwTokenException(HttpOAuth2Response $errorResponse)
+    protected function throwTokenException( $errorResponse)
     {
         $body = $errorResponse->getBody();
 

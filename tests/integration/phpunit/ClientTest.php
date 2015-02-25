@@ -2,12 +2,12 @@
 
 namespace MostSignificantBit\OAuth2\Client\Tests\Integration;
 
+use Ivory\HttpAdapter\GuzzleHttpHttpAdapter;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
-use MostSignificantBit\OAuth2\Client\Http\Guzzle5Adapter;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
@@ -38,7 +38,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAccessTokenResourceOwnerPasswordCredentialsGrant()
     {
-        $httpClient = new Guzzle5Adapter(new \GuzzleHttp\Client());
+        $httpClient = new GuzzleHttpHttpAdapter(new \GuzzleHttp\Client());
 
         $config = new Config(array(
             'endpoint' => array(
