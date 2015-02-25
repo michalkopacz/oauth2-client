@@ -5,12 +5,12 @@ use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
-use MostSignificantBit\OAuth2\Client\Http\Guzzle5Adapter;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
 use MostSignificantBit\OAuth2\Client\Parameter\Username;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use Ivory\HttpAdapter\GuzzleHttpHttpAdapter;
 
-$httpClient = new Guzzle5Adapter(new \GuzzleHttp\Client());
+$httpClient = new GuzzleHttpHttpAdapter(new \GuzzleHttp\Client());
 
 $config = new Config(array(
     'endpoint' => array(
