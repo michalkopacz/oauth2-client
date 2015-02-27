@@ -12,6 +12,8 @@ use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 
 class AbstractSingleParameter
 {
+    protected $validationMessage = 'Value is not valid.';
+
     protected $value;
 
     protected function isValid($value)
@@ -21,7 +23,7 @@ class AbstractSingleParameter
 
     protected function setValue($value)
     {
-        Assertion::true($this->isValid($value), 'Value is not valid');
+        Assertion::true($this->isValid($value), $this->validationMessage);
 
         $this->value = $value;
     }
