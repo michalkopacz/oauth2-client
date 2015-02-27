@@ -48,16 +48,18 @@ class Client
     {
         $this->checkIsGrantSupportClientType($grant, new ClientType($this->config->getClientType()));
 
-        $headers = array();
+        $headers = array(
+            'Accept' => 'application/json',
+        );
 
         $bodyParams = $grant->getAccessTokenRequest()->getBodyParameters();
 
         switch ($this->config->getClientAuthenticationType()) {
             case AuthenticationType::REQUEST_BODY:
-                $body['client_id'] = $this->config->getClientId();
+                $bodyParams['client_id'] = $this->config->getClientId();
 
                 if ($this->config->getClientType() === ClientType::CONFIDENTIAL_TYPE) {
-                    $body['client_secret'] = $this->config->getClientSecret();
+                    $bodyParams['client_secret'] = $this->config->getClientSecret();
                 }
 
                 break;
@@ -164,7 +166,7 @@ class Client
 
         $accessTokenSuccessfulResponse = new AccessTokenSuccessfulResponse(
             new AccessToken($body['access_token']),
-            new TokenType($body['token_type'])
+            new TokenType(ucfirst(strtolower($body['token_type'])))
         );
 
         if (array_key_exists('expires_in', $body)) {

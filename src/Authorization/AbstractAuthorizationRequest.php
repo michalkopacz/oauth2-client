@@ -114,7 +114,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
         );
 
         if ($this->getRedirectUri() !== null) {
-            $params['redirect_uri'] = $this->getRedirectUri();
+            $params['redirect_uri'] = $this->getRedirectUri()->getValue();
         }
 
         if ($this->getScope() !== null) {

@@ -25,7 +25,7 @@ class ResourceOwnerPasswordCredentialsGrant implements AccessTokenRequestAwareGr
      */
     public function setAccessTokenRequest(AccessTokenRequestInterface $request)
     {
-        Assertion::isInstanceOf($request, '\MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest');
+        Assertion::isInstanceOf($request, 'MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest');
 
         $this->accessTokenRequest = $request;
     }

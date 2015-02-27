@@ -53,6 +53,7 @@ class Config
     public function __construct(array $config)
     {
         //endpoint section
+        //TODO: move require check to client obtainAccessToken method
         Assertion::keyExists($config, 'endpoint', 'Endpoint section is required.');
         Assertion::keyExists($config['endpoint'], 'token_endpoint_uri', 'Token endpoint uri is required.');
 

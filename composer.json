@@ -24,7 +24,8 @@
         "phpunit/phpunit": "~4.0",
         "guzzlehttp/guzzle": "~5.0",
         "symfony/process": "~2.6",
-        "squizlabs/php_codesniffer": "~2.2"
+        "squizlabs/php_codesniffer": "~2.2",
+        "slim/slim": "~2.5"
     },
     "autoload": {
         "psr-4": {

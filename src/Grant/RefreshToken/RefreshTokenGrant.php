@@ -25,7 +25,7 @@ class RefreshTokenGrant implements AccessTokenRequestAwareGrantInterface
      */
     public function setAccessTokenRequest(AccessTokenRequestInterface $request)
     {
-        Assertion::isInstanceOf($request, '\MostSignificantBit\OAuth2\Client\RefreshToken\AccessTokenRequest');
+        Assertion::isInstanceOf($request, 'MostSignificantBit\OAuth2\Client\Grant\RefreshToken\AccessTokenRequest');
 
         $this->accessTokenRequest = $request;
     }

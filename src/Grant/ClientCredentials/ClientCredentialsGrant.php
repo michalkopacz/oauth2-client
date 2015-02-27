@@ -3,6 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Grant\ClientCredentials;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 
 class ClientCredentialsGrant implements AccessTokenRequestAwareGrantInterface
@@ -25,7 +26,7 @@ class ClientCredentialsGrant implements AccessTokenRequestAwareGrantInterface
      */
     public function setAccessTokenRequest(AccessTokenRequestInterface $request)
     {
-        Assertion::isInstanceOf($request, '\MostSignificantBit\OAuth2\Client\ClientCredentials\AccessTokenRequest');
+        Assertion::isInstanceOf($request, 'MostSignificantBit\OAuth2\Client\Grant\ClientCredentials\\AccessTokenRequest');
 
         $this->accessTokenRequest = $request;
     }
