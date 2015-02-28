@@ -3,7 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Parameter;
 
 use MyCLabs\Enum\Enum;
 
-class GrantType extends Enum
+class GrantType extends Enum implements ValueInterface
 {
     const AUTHORIZATION_CODE = 'authorization_code';
     const PASSWORD = 'password';

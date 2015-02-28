@@ -3,7 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Parameter;
 
 use MyCLabs\Enum\Enum;
 
-class TokenType extends Enum
+class TokenType extends Enum implements ValueInterface
 {
     const BEARER = 'Bearer';
 

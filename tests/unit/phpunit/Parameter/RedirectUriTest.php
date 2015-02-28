@@ -4,9 +4,7 @@
  * @copyright Copyright (c) 2015 Michał Kopacz.
  * @author Michał Kopacz <michalkopacz.mk@gmail.com>
  */
-
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Parameter;
-
 
 use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
 
@@ -14,13 +12,24 @@ class RedirectUriTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider invalidRedirectUriProvider
-     * @param $redirectUri
+     * @param $uri
      * @expectedException \MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException
      * @expectedExceptionMessage Redirect uri must be absolute url without fragment component.
      */
-    public function testInvalidRedirectUri($redirectUri)
+    public function testInvalidRedirectUri($uri)
     {
-        new RedirectUri($redirectUri);
+        new RedirectUri($uri);
+    }
+
+    /**
+     * @dataProvider validRedirectUriProvider
+     * @param $uri
+     */
+    public function testValidRedirectUri($uri)
+    {
+        $redirectUri = new RedirectUri($uri);
+
+        $this->assertSame($uri, $redirectUri->getValue());
     }
 
     public function invalidRedirectUriProvider()
@@ -30,6 +39,15 @@ class RedirectUriTest extends \PHPUnit_Framework_TestCase
             array('example.org'),
             array('https://example.org/auth?foo=bar#baz'),
             array('file://example.org/auth'),
+            array('127.0.0.1:8080'),
+        );
+    }
+
+    public function validRedirectUriProvider()
+    {
+        return array(
+            array('http://127.0.0.1:8080/auth'),
+            array('https://example.org/auth?foo=bar'),
         );
     }
 } 

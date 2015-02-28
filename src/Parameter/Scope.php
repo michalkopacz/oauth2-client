@@ -1,7 +1,9 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-class Scope
+use Assert\Assertion;
+
+class Scope implements ValueInterface
 {
     const DEFAULT_SCOPE_TOKENS_DELIMITER = ' ';
 
@@ -17,6 +19,8 @@ class Scope
 
     public function __construct(array $scopeTokens, $delimiter = self::DEFAULT_SCOPE_TOKENS_DELIMITER)
     {
+        $this->isValid($scopeTokens);
+
         $this->scopeTokens = $scopeTokens;
         $this->delimiter = $delimiter;
     }
@@ -24,7 +28,7 @@ class Scope
     /**
      * @return array
      */
-    public function getScopeTokens()
+    public function getValue()
     {
         return $this->scopeTokens;
     }
@@ -34,7 +38,7 @@ class Scope
      */
     public function getScopeParameter()
     {
-        return implode($this->delimiter, $this->getScopeTokens());
+        return implode($this->delimiter, $this->getValue());
     }
 
     public static function fromParameter($scopeParameter, $delimiter = self::DEFAULT_SCOPE_TOKENS_DELIMITER)
@@ -42,5 +46,12 @@ class Scope
         $scopeTokens = explode($delimiter, $scopeParameter);
 
         return new self($scopeTokens, $delimiter);
+    }
+
+    protected function isValid(array $scopeTokens)
+    {
+        foreach ($scopeTokens as $scopeToken) {
+            Assertion::regex($scopeToken, '/^%[x21%x23-5B%x5D-7E]+$/');
+        }
     }
 }

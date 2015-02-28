@@ -3,7 +3,7 @@ namespace MostSignificantBit\OAuth2\Client\Parameter;
 
 use MyCLabs\Enum\Enum;
 
-class ResponseType extends Enum
+class ResponseType extends Enum implements ValueInterface
 {
     const CODE = 'code';
     const TOKEN = 'token';

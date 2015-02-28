@@ -10,7 +10,7 @@ namespace MostSignificantBit\OAuth2\Client\Parameter;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 
-class AbstractSingleParameter
+class AbstractSingleParameter implements ValueInterface
 {
     protected $validationMessage = 'Value is not valid.';
 
