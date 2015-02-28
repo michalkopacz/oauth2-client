@@ -58,6 +58,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo('https://auth.example.com/token'),
                 $this->equalTo(array(
+                    'Accept' => 'application/json',
                     'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
                 )),
                 $this->equalTo(array(
@@ -124,6 +125,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo('https://auth.example.com/token'),
                 $this->equalTo(array(
+                    'Accept' => 'application/json',
                     'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
                 )),
                 $this->equalTo(array(

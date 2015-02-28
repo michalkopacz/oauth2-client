@@ -69,7 +69,7 @@ class TokenException extends \Exception implements OAuth2ClientExceptionInterfac
 
     protected function getCodeForError($error)
     {
-        $codeConst = "self:" . strtoupper($error) . '_CODE';
+        $codeConst = "self::" . strtoupper($error) . '_CODE';
 
         if (defined($codeConst)) {
             return constant($codeConst);
