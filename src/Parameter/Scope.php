@@ -1,11 +1,13 @@
 <?php
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-use Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 
 class Scope implements ValueInterface
 {
     const DEFAULT_SCOPE_TOKENS_DELIMITER = ' ';
+
+    const SCOPE_TOKEN_REGEXP = '/^[\x21\x23-\x5B\x5D-\x7E]+$/';
 
     /**
      * @var string
@@ -13,13 +15,19 @@ class Scope implements ValueInterface
     protected $delimiter;
 
     /**
-     * @var
+     * @var array
      */
     protected $scopeTokens;
 
+    /**
+     * @param array $scopeTokens
+     * @param string $delimiter Delimiter should be set as space, because scopeToken can not include space chars.
+     *                          But some oauth2 providers, like github, use comma as scopeTokens delimiters,
+     *                          although scopeToken can include comma char.
+     */
     public function __construct(array $scopeTokens, $delimiter = self::DEFAULT_SCOPE_TOKENS_DELIMITER)
     {
-        $this->isValid($scopeTokens);
+        $this->validate($scopeTokens);
 
         $this->scopeTokens = $scopeTokens;
         $this->delimiter = $delimiter;
@@ -48,10 +56,8 @@ class Scope implements ValueInterface
         return new self($scopeTokens, $delimiter);
     }
 
-    protected function isValid(array $scopeTokens)
+    protected function validate(array $scopeTokens)
     {
-        foreach ($scopeTokens as $scopeToken) {
-            Assertion::regex($scopeToken, '/^%[x21%x23-5B%x5D-7E]+$/');
-        }
+        Assertion::allRegex($scopeTokens, self::SCOPE_TOKEN_REGEXP);
     }
 }
