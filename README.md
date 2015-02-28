@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/michalkopacz/oauth2-client.svg?branch=develop)](https://travis-ci.org/michalkopacz/oauth2-client)
+
 # Usage
 
 ```php
