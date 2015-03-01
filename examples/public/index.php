@@ -66,10 +66,17 @@ $twitter_config = new MostSignificantBit\OAuth2\Client\Config\Config(array(
     ),
 ));
 
-$app->fb_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($fb_config, $httpClient);
-$app->google_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($google_config, $httpClient);
-$app->github_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($github_config, $httpClient);
-$app->twitter_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($twitter_config, $httpClient);
+$accessTokenObtainTemplate = new \MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate(
+    $httpClient,
+    $google_config,
+    new \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseJsonDecoder()
+);
+
+$app->fb_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($fb_config);
+$app->google_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($google_config);
+$app->google_oauth2Client->setAccessTokenObtainTemplate($accessTokenObtainTemplate);
+$app->github_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($github_config);
+$app->twitter_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($twitter_config);
 
 $app->get('/', function() use ($app) {
     $authorizationRequest = new \MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AuthorizationRequest();

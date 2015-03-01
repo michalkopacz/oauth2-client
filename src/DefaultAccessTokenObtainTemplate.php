@@ -163,12 +163,12 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
 
     protected function setClientAuthenticationData(RequestInterface $request, array &$bodyParams)
     {
-        switch ($this->config->getClientAuthenticationType()) {
+        switch ($this->getConfig()->getClientAuthenticationType()) {
             case AuthenticationType::REQUEST_BODY:
-                $bodyParams['client_id'] = $this->config->getClientId();
+                $bodyParams['client_id'] = $this->getConfig()->getClientId();
 
                 if ($this->config->getClientType() === ClientType::CONFIDENTIAL_TYPE) {
-                    $bodyParams['client_secret'] = $this->config->getClientSecret();
+                    $bodyParams['client_secret'] = $this->getConfig()->getClientSecret();
                 }
 
                 break;

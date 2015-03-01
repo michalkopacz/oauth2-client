@@ -31,7 +31,7 @@ class Client
 
     public function setAccessTokenObtainTemplate(AccessTokenObtainTemplateInterface $accessTokenObtainTemplate)
     {
-        $this->$accessTokenObtainTemplate = $accessTokenObtainTemplate;
+        $this->accessTokenObtainTemplate = $accessTokenObtainTemplate;
     }
 
     /**
