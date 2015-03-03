@@ -7,31 +7,17 @@
 
 namespace MostSignificantBit\OAuth2\Client;
 
-
 use Ivory\HttpAdapter\Message\ResponseInterface;
 use Ivory\HttpAdapter\Message\RequestInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface as AccessTokenSuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 
-
+/**
+ * Describe algorithm template to obtain access token
+ */
 interface AccessTokenObtainTemplateInterface
 {
-    /**
-     * @return \MostSignificantBit\OAuth2\Client\Config\Config
-     */
-    public function getConfig();
-
-    /**
-     * @return \Ivory\HttpAdapter\HttpAdapterInterface
-     */
-    public function getHttpClient();
-
-    /**
-     * @return \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseDecoderInterface
-     */
-    public function getHttpResponseDecoder();
-
     /**
      * @param AccessTokenRequestInterface $accessTokenRequest
      * @return RequestInterface
@@ -42,7 +28,7 @@ interface AccessTokenObtainTemplateInterface
      * @param RequestInterface $httpRequest
      * @return ResponseInterface
      */
-    public function obtainAccessTokenHttpResponse(RequestInterface $httpRequest);
+    public function sendHttpRequest(RequestInterface $httpRequest);
 
     /**
      * @param ResponseInterface $httpResponse

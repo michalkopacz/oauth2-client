@@ -5,7 +5,7 @@
  * @author Michał Kopacz <michalkopacz.mk@gmail.com>
  */
 
-namespace MostSignificantBit\OAuth2\Client;
+namespace MostSignificantBit\OAuth2\Client\Http\Decoder;
 
 use Ivory\HttpAdapter\Message\ResponseInterface;
 

@@ -11,6 +11,7 @@ use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface as 
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
+use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder;
 
 class Client
 {
@@ -50,7 +51,7 @@ class Client
 
         $httpRequest = $accessTokenObtainTemplate->convertAccessTokenRequestToHttpRequest($accessTokenRequest);
 
-        $httpResponse = $accessTokenObtainTemplate->obtainAccessTokenHttpResponse($httpRequest);
+        $httpResponse = $accessTokenObtainTemplate->sendHttpRequest($httpRequest);
 
         if (!$accessTokenObtainTemplate->isSuccessfulResponse($httpResponse)){
             $accessTokenObtainTemplate->throwTokenException($httpResponse);

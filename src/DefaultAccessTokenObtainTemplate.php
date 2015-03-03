@@ -12,14 +12,15 @@ use Ivory\HttpAdapter\HttpAdapterInterface;
 use Ivory\HttpAdapter\Message\Request;
 use Ivory\HttpAdapter\Message\ResponseInterface;
 use Ivory\HttpAdapter\Message\Stream\StringStream;
+use Ivory\HttpAdapter\Message\RequestInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface as AccessTokenSuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
-use Ivory\HttpAdapter\Message\RequestInterface;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseDecoderInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
@@ -27,6 +28,9 @@ use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 use Psr\Http\Message\StreamableInterface;
 
+/**
+ * Default access token obtain algorithm implementation, according to OAuth2 RFC.
+ */
 class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInterface
 {
     /**
@@ -49,30 +53,6 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
         $this->httpClient = $httpClient;
         $this->config = $config;
         $this->httpResponseDecoder = $httpResponseDecoder;
-    }
-
-    /**
-     * @return \MostSignificantBit\OAuth2\Client\Config\Config
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @return \Ivory\HttpAdapter\HttpAdapterInterface
-     */
-    public function getHttpClient()
-    {
-        return $this->httpClient;
-    }
-
-    /**
-     * @return \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseDecoderInterface
-     */
-    public function getHttpResponseDecoder()
-    {
-        return $this->httpResponseDecoder;
     }
 
     /**
@@ -99,7 +79,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
      * @param RequestInterface $httpRequest
      * @return ResponseInterface
      */
-    public function obtainAccessTokenHttpResponse(RequestInterface $httpRequest)
+    public function sendHttpRequest(RequestInterface $httpRequest)
     {
         return $this->getHttpClient()->sendRequest($httpRequest);
     }
@@ -198,4 +178,29 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
 
         return new StringStream($body);
     }
+
+    /**
+     * @return \MostSignificantBit\OAuth2\Client\Config\Config
+     */
+    protected  function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return \Ivory\HttpAdapter\HttpAdapterInterface
+     */
+    protected function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * @return \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseDecoderInterface
+     */
+    protected function getHttpResponseDecoder()
+    {
+        return $this->httpResponseDecoder;
+    }
+
 }

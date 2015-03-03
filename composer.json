@@ -5,7 +5,7 @@
     "keywords": ["php", "oauth", "oauth2", "oauth 2.0", "client"],
     "authors": [
         {
-            "name": "Michal Kopacz",
+            "name": "Michał Kopacz",
             "email": "michalkopacz.mk@gmail.com"
         }
     ],
@@ -15,6 +15,7 @@
         "beberlei/assert": "~2.3",
         "zendframework/zend-stdlib": "2.*",
         "zendframework/zend-uri": "2.*",
+        "zendframework/zend-json": "2.*",
         "egeloen/http-adapter": "~0.6"
     },
     "require-dev": {

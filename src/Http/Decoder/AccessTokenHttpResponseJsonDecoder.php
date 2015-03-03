@@ -5,9 +5,11 @@
  * @author Michał Kopacz <michalkopacz.mk@gmail.com>
  */
 
-namespace MostSignificantBit\OAuth2\Client;
+namespace MostSignificantBit\OAuth2\Client\Http\Decoder;
 
 use Ivory\HttpAdapter\Message\ResponseInterface;
+use Zend\Json\Exception\RuntimeException;
+use Zend\Json\Json;
 
 class AccessTokenHttpResponseJsonDecoder implements AccessTokenHttpResponseDecoderInterface
 {
@@ -16,8 +18,13 @@ class AccessTokenHttpResponseJsonDecoder implements AccessTokenHttpResponseDecod
         return 'application/json';
     }
 
+    /**
+     * @param ResponseInterface $httpResponse
+     * @return array
+     * @throws RuntimeException
+     */
     public function decode(ResponseInterface $httpResponse)
     {
-        return json_decode($httpResponse->getBody()->getContents(), true);
+        return Json::decode($httpResponse->getBody()->getContents(), Json::TYPE_ARRAY);
     }
 } 
