@@ -9,6 +9,7 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 use Ivory\HttpAdapter\Message\Request;
 use Ivory\HttpAdapter\Message\Stream\StringStream;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate;
 
 /**
@@ -16,7 +17,7 @@ use MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate;
  */
 class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConvertAccessTokenRequestToHttpRequest()
+    public function testConvertAccessTokenRequestToHttpRequestWithHttpBasicAuthorization()
     {
         $httpClientMock = $this->getHttpClientMock();
         $configMock = $this->getConfigMock();
@@ -73,6 +74,122 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedHttpRequest, $httpRequest);
     }
 
+    public function testConvertAccessTokenRequestToHttpRequestWithRequestBodyAuthorizationAndConfidentialClientType()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $configMock->expects($this->once())
+            ->method('getTokenEndpointUri')
+            ->willReturn('https://auth.example.com/token');
+
+        $accessTokenRequestMock = $this->getAccessTokenRequestMock();
+        $accessTokenRequestMock
+            ->expects($this->once())
+            ->method('getBodyParameters')
+            ->willReturn(array(
+                'grant_type' => 'password',
+                'username' => 'johndoe',
+                'password' => 'A3ddj3w',
+            ));
+
+        $configMock->expects($this->once())
+            ->method('getClientAuthenticationType')
+            ->willReturn(AuthenticationType::REQUEST_BODY);
+
+        $configMock->expects($this->once())
+            ->method('getClientId')
+            ->willReturn('s6BhdRkqt3');
+
+        $configMock->expects($this->once())
+            ->method('getClientSecret')
+            ->willReturn('7Fjfp0ZBr1KtDRbnfVdmIw');
+
+        $configMock->expects($this->once())
+            ->method('getClientType')
+            ->willReturn(ClientType::CONFIDENTIAL_TYPE);
+
+        $decoderMock->expects($this->once())
+            ->method('getMimeType')
+            ->willReturn('application/json');
+
+
+        $httpRequest = $accessTokenObtainTemplate->convertAccessTokenRequestToHttpRequest($accessTokenRequestMock);
+
+        $expectedHttpRequest = new Request(
+            'https://auth.example.com/token',
+            Request::METHOD_POST,
+            Request::PROTOCOL_VERSION_1_1,
+            array(
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+            ),
+            new StringStream('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw')
+        );
+
+        $this->assertEquals($expectedHttpRequest, $httpRequest);
+    }
+
+    public function testConvertAccessTokenRequestToHttpRequestWithRequestBodyAuthorizationAndPublicClientType()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $configMock->expects($this->once())
+            ->method('getTokenEndpointUri')
+            ->willReturn('https://auth.example.com/token');
+
+        $accessTokenRequestMock = $this->getAccessTokenRequestMock();
+        $accessTokenRequestMock
+            ->expects($this->once())
+            ->method('getBodyParameters')
+            ->willReturn(array(
+                'grant_type' => 'password',
+                'username' => 'johndoe',
+                'password' => 'A3ddj3w',
+            ));
+
+        $configMock->expects($this->once())
+            ->method('getClientAuthenticationType')
+            ->willReturn(AuthenticationType::REQUEST_BODY);
+
+        $configMock->expects($this->once())
+            ->method('getClientId')
+            ->willReturn('s6BhdRkqt3');
+
+        $configMock->expects($this->never())
+            ->method('getClientSecret');
+
+        $configMock->expects($this->once())
+            ->method('getClientType')
+            ->willReturn(ClientType::PUBLIC_TYPE);
+
+        $decoderMock->expects($this->once())
+            ->method('getMimeType')
+            ->willReturn('application/json');
+
+        $httpRequest = $accessTokenObtainTemplate->convertAccessTokenRequestToHttpRequest($accessTokenRequestMock);
+
+        $expectedHttpRequest = new Request(
+            'https://auth.example.com/token',
+            Request::METHOD_POST,
+            Request::PROTOCOL_VERSION_1_1,
+            array(
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+            ),
+            new StringStream('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3')
+        );
+
+        $this->assertEquals($expectedHttpRequest, $httpRequest);
+    }
+
     protected function getHttpClientMock()
     {
         return $this->getMockBuilder('\Ivory\HttpAdapter\HttpAdapterInterface')
@@ -83,7 +200,7 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
     protected function getConfigMock()
     {
         return $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Config\Config')
-            ->setMethods(array('getTokenEndpointUri', 'getClientAuthenticationType', 'getClientId', 'getClientSecret'))
+            ->setMethods(array('getTokenEndpointUri', 'getClientAuthenticationType', 'getClientId', 'getClientSecret', 'getClientType'))
             ->disableOriginalConstructor()
             ->getMock();
     }
