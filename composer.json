@@ -1,0 +1,43 @@
+{
+    "name": "most-significant-bit/oauth2-client",
+    "license": "BSD-3-Clause",
+    "description": "OAuth 2.0 Client. Implement RFC 6749.",
+    "keywords": ["php", "oauth", "oauth2", "oauth 2.0", "client"],
+    "authors": [
+        {
+            "name": "Michał Kopacz",
+            "email": "michalkopacz.mk@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.3",
+        "myclabs/php-enum": "~1.3",
+        "beberlei/assert": "~2.3",
+        "zendframework/zend-stdlib": "2.*",
+        "zendframework/zend-uri": "2.*",
+        "zendframework/zend-json": "2.*",
+        "egeloen/http-adapter": "~0.6"
+    },
+    "require-dev": {
+        "php": ">=5.4.0",
+        "coduo/tutu": "dev-master",
+        "coduo/tutu-faker-extension": "dev-master",
+        "coduo/tutu-twig-extension": "dev-master",
+        "phpunit/phpunit": "~4.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "symfony/process": "~2.6",
+        "squizlabs/php_codesniffer": "~2.2",
+        "slim/slim": "~2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MostSignificantBit\\OAuth2\\Client\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MostSignificantBit\\OAuth2\\Client\\Tests\\Unit\\": "tests/unit/phpunit/",
+            "MostSignificantBit\\OAuth2\\Client\\Tests\\Integration\\": "tests/integration/phpunit/"
+        }
+    }
+}

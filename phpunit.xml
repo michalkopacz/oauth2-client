@@ -1,0 +1,31 @@
+<phpunit bootstrap="tests/unit/phpunit/bootstrap.php"
+         backupStaticAttributes="false"
+         backupGlobals="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true">
+
+    <testsuites>
+        <testsuite name="OAuth2ClientUnit">
+            <directory>tests/unit/phpunit/</directory>
+        </testsuite>
+    </testsuites>
+
+    <testsuites>
+        <testsuite name="OAuth2ClientIntegration">
+            <directory>tests/integration/phpunit/</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="coverage-html" target="data/tests/coverage"/>
+    </logging>
+
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+        </whitelist>
+    </filter>
+
+</phpunit>
