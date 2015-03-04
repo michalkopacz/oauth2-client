@@ -69,7 +69,7 @@ $twitter_config = new MostSignificantBit\OAuth2\Client\Config\Config(array(
 $accessTokenObtainTemplate = new \MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate(
     $httpClient,
     $google_config,
-    new \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseJsonDecoder()
+    new \MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder()
 );
 
 $app->fb_oauth2Client = new \MostSignificantBit\OAuth2\Client\Client($fb_config);

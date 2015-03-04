@@ -190,6 +190,30 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedHttpRequest, $httpRequest);
     }
 
+    public function testSendHttpRequest()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+            ->getMockForAbstractClass();
+
+        $httpClientMock->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn($httpResponseMock);
+
+        $httpRequestMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\RequestInterface')
+            ->setMethods(array('sendRequest'))
+            ->getMockForAbstractClass();
+
+        $httpResponse = $accessTokenObtainTemplate->sendHttpRequest($httpRequestMock);
+
+        $this->assertSame($httpResponseMock, $httpResponse);
+    }
+
     protected function getHttpClientMock()
     {
         return $this->getMockBuilder('\Ivory\HttpAdapter\HttpAdapterInterface')
