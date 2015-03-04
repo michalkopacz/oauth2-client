@@ -6,6 +6,7 @@ use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
+use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode\AuthorizationCodeGrant;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
@@ -23,136 +24,6 @@ use MostSignificantBit\OAuth2\Client\Parameter\Username;
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetAccessTokenResourceOwnerPasswordCredentialsGrant()
-    {
-        $httpClient = $this->getHttpClientMock();
-
-        $oauth2Response = $this->getResponseMock();
-
-        $oauth2Response->expects($this->once())
-            ->method('getStatusCode')
-            ->willReturn(200);
-
-        $body = json_encode(array(
-            'access_token' => '2YotnFZFEjr1zCsicMWpAA',
-            'token_type' => 'Bearer',
-            'expires_in' => 3600,
-            'refresh_token' => 'tGzv3JOkF0XG5Qx2TlKWIA',
-            'scope' => 'example1 example2',
-        ));
-
-        $streamable = $this->getMockBuilder('\Psr\Http\Message\StreamableInterface')
-            ->setMethods(array('getContents'))
-            ->getMockForAbstractClass();
-
-        $streamable->expects($this->once())
-            ->method('getContents')
-            ->willReturn($body);
-
-        $oauth2Response->expects($this->once())
-            ->method('getBody')
-            ->willReturn($streamable);
-
-        $httpClient->expects($this->once())
-            ->method('post')
-            ->with(
-                $this->equalTo('https://auth.example.com/token'),
-                $this->equalTo(array(
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
-                )),
-                $this->equalTo(array(
-                    'grant_type' => 'password',
-                    'username' => 'johndoe',
-                    'password' => 'A3ddj3w',
-                ))
-            )
-            ->willReturn($oauth2Response);
-
-        $config = $this->getConfig();
-
-        $oauth2Client = new OAuth2Client($config, $httpClient);
-
-        $accessTokenExpectedResponse = new AccessTokenSuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), TokenType::BEARER());
-        $accessTokenExpectedResponse->setExpiresIn(new ExpiresIn(3600));
-        $accessTokenExpectedResponse->setRefreshToken(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
-        $accessTokenExpectedResponse->setScope(new Scope(array('example1', 'example2')));
-
-        $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
-
-        $grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
-
-        $accessTokenResponse = $oauth2Client->obtainAccessToken($grant);
-
-        $this->assertEquals($accessTokenExpectedResponse, $accessTokenResponse);
-    }
-
-    /**
-     * @expectedException \MostSignificantBit\OAuth2\Client\Exception\TokenException
-     * @expectedExceptionCode 1
-     * @expectedExceptionMessage Invalid request
-     */
-    public function testInvalidRequestAccessTokenResourceOwnerPasswordCredentialsGrant()
-    {
-        $httpClient = $this->getHttpClientMock();
-
-        $oauth2Response = $this->getResponseMock();
-
-        $oauth2Response->expects($this->once())
-            ->method('getStatusCode')
-            ->willReturn(400);
-
-        $body = json_encode(array(
-            'error' => 'invalid_request',
-            'error_description' => 'Invalid request',
-            'error_uri' => 'https://auth.example.com/oauth2/errors/invalid_request'
-        ));
-
-        $streamable = $this->getMockBuilder('\Psr\Http\Message\StreamableInterface')
-            ->setMethods(array('getContents'))
-            ->getMockForAbstractClass();
-
-        $streamable->expects($this->once())
-            ->method('getContents')
-            ->willReturn($body);
-
-        $oauth2Response->expects($this->once())
-            ->method('getBody')
-            ->willReturn($streamable);
-
-        $httpClient->expects($this->once())
-            ->method('post')
-            ->with(
-                $this->equalTo('https://auth.example.com/token'),
-                $this->equalTo(array(
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3'
-                )),
-                $this->equalTo(array(
-                    'grant_type' => 'password',
-                    'username' => 'johndoe',
-                    'password' => 'wrong_password',
-                ))
-            )
-            ->willReturn($oauth2Response);
-
-        $config = $this->getConfig();
-
-        $oauth2Client = new OAuth2Client($config, $httpClient);
-
-        $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('wrong_password'));
-
-        $grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
-
-        try {
-            $oauth2Client->obtainAccessToken($grant);
-        } catch (TokenException $exception) {
-            $this->assertSame('https://auth.example.com/oauth2/errors/invalid_request', $exception->getErrorUri());
-
-            throw $exception;
-        }
-    }
-
     public function testGetAuthorizationRequestUriForCodeResponseType()
     {
         $config = $this->getConfig();

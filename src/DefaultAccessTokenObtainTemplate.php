@@ -19,6 +19,7 @@ use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
 use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseDecoderInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
@@ -96,6 +97,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
     /**
      * @param ResponseInterface $httpResponse
      * @return AccessTokenSuccessfulResponseInterface
+     * @throws InvalidArgumentException
      */
     public function convertHttpResponseToAccessTokenSuccessfulResponse(ResponseInterface $httpResponse)
     {

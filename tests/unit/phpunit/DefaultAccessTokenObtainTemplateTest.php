@@ -8,9 +8,17 @@
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
 use Ivory\HttpAdapter\Message\Request;
 use Ivory\HttpAdapter\Message\Stream\StringStream;
+use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate;
+use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
+use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
+use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
+use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 
 /**
  * @group unit
@@ -234,6 +242,97 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
             ->willReturn($statusCode);
 
         $this->assertSame($isSuccessful, $accessTokenObtainTemplate->isSuccessfulResponse($httpResponseMock));
+    }
+
+    public function testConvertHttpResponseToAccessTokenSuccessfulResponse()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+            ->getMockForAbstractClass();
+
+        $decoderMock->expects($this->once())
+            ->method('decode')
+            ->with($httpResponseMock)
+            ->willReturn(array(
+                'access_token' => '2YotnFZFEjr1zCsicMWpAA',
+                'token_type' => 'Bearer',
+                'expires_in' => 3600,
+                'refresh_token' => 'tGzv3JOkF0XG5Qx2TlKWIA',
+                'scope' => 'example1 example2',
+                'not_specified' => 'foo',
+            ));
+
+        $expectedAccessTokenSuccessFullResponse = new SuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), new TokenType('Bearer'));
+        $expectedAccessTokenSuccessFullResponse->setRefreshToken(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
+        $expectedAccessTokenSuccessFullResponse->setExpiresIn(new ExpiresIn(3600));
+        $expectedAccessTokenSuccessFullResponse->setScope(new Scope(array('example1', 'example2')));
+
+        $accessTokenSuccessFullResponse = $accessTokenObtainTemplate->convertHttpResponseToAccessTokenSuccessfulResponse($httpResponseMock);
+
+        $this->assertEquals($expectedAccessTokenSuccessFullResponse, $accessTokenSuccessFullResponse);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Access token param in body is required.
+     */
+    public function testConvertHttpResponseToAccessTokenSuccessfulResponseWithoutRequiredFields()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+            ->getMockForAbstractClass();
+
+        $decoderMock->expects($this->once())
+            ->method('decode')
+            ->with($httpResponseMock)
+            ->willReturn(array(
+                'expires_in' => 3600,
+                'refresh_token' => 'tGzv3JOkF0XG5Qx2TlKWIA',
+                'scope' => 'example1 example2',
+            ));
+
+        $accessTokenObtainTemplate->convertHttpResponseToAccessTokenSuccessfulResponse($httpResponseMock);
+    }
+
+    public function testThrowTokenException()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+            ->getMockForAbstractClass();
+
+        $decoderMock->expects($this->once())
+            ->method('decode')
+            ->with($httpResponseMock)
+            ->willReturn(array(
+                'error' => 'invalid_request',
+                'error_description' => 'Invalid request',
+                'error_uri' => 'https://auth.example.com/oauth2/errors/invalid_request'
+            ));
+
+        try {
+            $accessTokenObtainTemplate->throwTokenException($httpResponseMock);
+        } catch (TokenException $exception) {
+            $this->assertSame('Invalid request', $exception->getMessage());
+            $this->assertSame(TokenException::INVALID_REQUEST_CODE, $exception->getCode());
+            $this->assertSame('invalid_request', $exception->getError());
+            $this->assertSame('https://auth.example.com/oauth2/errors/invalid_request', $exception->getErrorUri());
+            $this->assertSame('Invalid request', $exception->getErrorDescription());
+        }
     }
 
     public function responseStatusProvider()
