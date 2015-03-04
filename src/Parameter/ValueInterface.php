@@ -7,8 +7,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
-
 interface ValueInterface
 {
     public function getValue();
-} 
+}

@@ -36,7 +36,6 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
 {
     /**
      * @var HttpAdapterInterface
-     *
      */
     protected $httpClient;
     /**
@@ -184,7 +183,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
     /**
      * @return \MostSignificantBit\OAuth2\Client\Config\Config
      */
-    protected  function getConfig()
+    protected function getConfig()
     {
         return $this->config;
     }
@@ -204,5 +203,4 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
     {
         return $this->httpResponseDecoder;
     }
-
 }

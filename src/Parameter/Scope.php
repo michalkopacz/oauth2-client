@@ -26,8 +26,8 @@ class Scope implements ValueInterface
     protected $scopeTokens;
 
     /**
-     * @param array $scopeTokens
-     * @param string $delimiter Delimiter should be set as space, because scopeToken can not include space chars.
+     * @param array  $scopeTokens
+     * @param string $delimiter   Delimiter should be set as space, because scopeToken can not include space chars. But some oauth2 providers, like github, use comma as scopeTokens delimiters, although scopeToken can include comma char.
      *                          But some oauth2 providers, like github, use comma as scopeTokens delimiters,
      *                          although scopeToken can include comma char.
      */

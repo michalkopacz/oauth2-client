@@ -22,7 +22,7 @@ class GrantType extends Enum implements ValueInterface
     //@codingStandardsIgnoreStart
     public static function AUTHORIZATION_CODE()
     {
-    // @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
 
         return new GrantType(self::AUTHORIZATION_CODE);
     }
@@ -33,7 +33,7 @@ class GrantType extends Enum implements ValueInterface
     //@codingStandardsIgnoreStart
     public static function PASSWORD()
     {
-    // @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
 
         return new GrantType(self::PASSWORD);
     }
@@ -44,7 +44,7 @@ class GrantType extends Enum implements ValueInterface
     //@codingStandardsIgnoreStart
     public static function REFRESH_TOKEN()
     {
-    // @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
 
         return new GrantType(self::REFRESH_TOKEN);
     }
@@ -55,7 +55,7 @@ class GrantType extends Enum implements ValueInterface
     //@codingStandardsIgnoreStart
     public static function CLIENT_CREDENTIALS()
     {
-    // @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
 
         return new GrantType(self::CLIENT_CREDENTIALS);
     }

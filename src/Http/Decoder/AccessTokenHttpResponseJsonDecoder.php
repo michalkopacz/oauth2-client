@@ -30,4 +30,4 @@ class AccessTokenHttpResponseJsonDecoder implements AccessTokenHttpResponseDecod
     {
         return Json::decode($httpResponse->getBody()->getContents(), Json::TYPE_ARRAY);
     }
-} 
+}

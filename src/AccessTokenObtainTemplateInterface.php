@@ -47,5 +47,4 @@ interface AccessTokenObtainTemplateInterface
      * @throws TokenException
      */
     public function throwTokenException(ResponseInterface $httpResponse);
-
-} 
+}

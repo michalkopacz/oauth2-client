@@ -67,7 +67,7 @@ class Client
 
         $httpResponse = $accessTokenObtainTemplate->sendHttpRequest($httpRequest);
 
-        if (!$accessTokenObtainTemplate->isSuccessfulResponse($httpResponse)){
+        if (!$accessTokenObtainTemplate->isSuccessfulResponse($httpResponse)) {
             $accessTokenObtainTemplate->throwTokenException($httpResponse);
         }
 
@@ -97,21 +97,29 @@ class Client
 
     /**
      * @param AccessTokenRequestAwareGrantInterface $grant
-     * @param ClientType $clientType
+     * @param ClientType                            $clientType
      */
     protected function checkIsGrantSupportClientType(AccessTokenRequestAwareGrantInterface $grant, ClientType $clientType)
     {
-        $isSupported = array_reduce($grant->getSupportedClientTypesForAuthentication(), function($isSupported = false, $supportedClientType) use ($clientType) {
-            $isSupported = ($isSupported === true || $supportedClientType->getValue() === $clientType->getValue());
-            return $isSupported;
-        });
+        $isSupported = array_reduce(
+            $grant->getSupportedClientTypesForAuthentication(),
+            function($isSupported = false, $supportedClientType) use ($clientType) {
+                $isSupported = ($isSupported === true || $supportedClientType->getValue() === $clientType->getValue());
+                return $isSupported;
+            }
+        );
 
         if (!$isSupported) {
-            throw new InvalidArgumentException(sprintf(
-                "Unsupported client type '%s' for grant '%s'.",
-                $clientType->getValue(),
-                $grant->getAccessTokenRequest()->getGrantType()->getValue()
-            ), 0, null, null);
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Unsupported client type '%s' for grant '%s'.",
+                    $clientType->getValue(),
+                    $grant->getAccessTokenRequest()->getGrantType()->getValue()
+                ),
+                0,
+                null,
+                null
+            );
         }
     }
 
