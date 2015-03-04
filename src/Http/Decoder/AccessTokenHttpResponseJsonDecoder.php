@@ -13,6 +13,9 @@ use Zend\Json\Json;
 
 class AccessTokenHttpResponseJsonDecoder implements AccessTokenHttpResponseDecoderInterface
 {
+    /**
+     * @return string
+     */
     public function getMimeType()
     {
         return 'application/json';

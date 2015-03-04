@@ -11,6 +11,14 @@ use Ivory\HttpAdapter\Message\ResponseInterface;
 
 interface AccessTokenHttpResponseDecoderInterface
 {
+    /**
+     * @return string
+     */
     public function getMimeType();
+
+    /**
+     * @param ResponseInterface $httpResponse
+     * @return array
+     */
     public function decode(ResponseInterface $httpResponse);
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Michał Kopacz
- * Date: 15.02.15
- * Time: 12:46
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @copyright Copyright (c) 2015 Michał Kopacz.
+ * @author Michał Kopacz <michalkopacz.mk@gmail.com>
  */
+
 namespace MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
