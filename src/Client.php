@@ -1,4 +1,9 @@
 <?php
+/**
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @copyright Copyright (c) 2015 Michał Kopacz.
+ * @author Michał Kopacz <michalkopacz.mk@gmail.com>
+ */
 namespace MostSignificantBit\OAuth2\Client;
 
 use Ivory\HttpAdapter\CurlHttpAdapter;
@@ -13,6 +18,9 @@ use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterfa
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
 use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder;
 
+/**
+ * OAuth2 client.
+ */
 class Client
 {
     /**
@@ -25,11 +33,17 @@ class Client
      */
     protected $accessTokenObtainTemplate;
 
+    /**
+     * @param Config $config
+     */
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param AccessTokenObtainTemplateInterface $accessTokenObtainTemplate
+     */
     public function setAccessTokenObtainTemplate(AccessTokenObtainTemplateInterface $accessTokenObtainTemplate)
     {
         $this->accessTokenObtainTemplate = $accessTokenObtainTemplate;
@@ -81,6 +95,10 @@ class Client
         return "{$authorizationEndpointUri}?{$query}";
     }
 
+    /**
+     * @param AccessTokenRequestAwareGrantInterface $grant
+     * @param ClientType $clientType
+     */
     protected function checkIsGrantSupportClientType(AccessTokenRequestAwareGrantInterface $grant, ClientType $clientType)
     {
         $isSupported = array_reduce($grant->getSupportedClientTypesForAuthentication(), function($isSupported = false, $supportedClientType) use ($clientType) {
