@@ -9,4 +9,4 @@ php:
 install:
   - composer install
 
-script: phpunit --coverage-text
+script: phpunit --group=unit --coverage-text
