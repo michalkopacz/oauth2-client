@@ -2,7 +2,6 @@
 
 namespace MostSignificantBit\OAuth2\Client\Tests\Integration;
 
-use Ivory\HttpAdapter\GuzzleHttpHttpAdapter;
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;

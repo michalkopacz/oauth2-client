@@ -8,6 +8,9 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Parameter;
 
 use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
 
+/**
+ * @group unit
+ */
 class RedirectUriTest extends \PHPUnit_Framework_TestCase
 {
     /**

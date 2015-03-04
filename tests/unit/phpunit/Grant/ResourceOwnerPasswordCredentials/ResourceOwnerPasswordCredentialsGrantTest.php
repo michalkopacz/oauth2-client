@@ -6,6 +6,9 @@ use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\Reso
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
 use MostSignificantBit\OAuth2\Client\Parameter\Username;
 
+/**
+ * @group unit
+ */
 class ResourceOwnerPasswordCredentialsGrantTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetAccessTokenRequestByConstructor()

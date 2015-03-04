@@ -5,14 +5,15 @@
 ```php
 use MostSignificantBit\OAuth2\Client\Client as OAuth2Client;
 use MostSignificantBit\OAuth2\Client\Config\Config;
+use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\AccessTokenRequest;
 use MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials\ResourceOwnerPasswordCredentialsGrant;
+use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
+use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
+use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 use MostSignificantBit\OAuth2\Client\Parameter\Username;
-use MostSignificantBit\OAuth2\Client\Exception\TokenException;
-use Ivory\HttpAdapter\GuzzleHttpHttpAdapter;
-
-$httpClient = new GuzzleHttpHttpAdapter(new \GuzzleHttp\Client());
 
 $config = new Config(array(
     'endpoint' => array(
@@ -26,7 +27,7 @@ $config = new Config(array(
     ),
 ));
 
-$oauth2Client = new OAuth2Client($httpClient, $config);
+$oauth2Client = new OAuth2Client($config);
 
 $accessTokenRequest = new AccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
 

@@ -8,6 +8,9 @@ namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Parameter;
 
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 
+/**
+ * @group unit
+ */
 class ScopeTest extends \PHPUnit_Framework_TestCase
 {
     /**
