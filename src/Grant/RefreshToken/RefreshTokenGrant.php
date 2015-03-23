@@ -9,6 +9,7 @@ namespace MostSignificantBit\OAuth2\Client\Grant\RefreshToken;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
+use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface;
 
 class RefreshTokenGrant implements AccessTokenRequestAwareGrantInterface
