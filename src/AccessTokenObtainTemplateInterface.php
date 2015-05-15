@@ -7,8 +7,8 @@
 
 namespace MostSignificantBit\OAuth2\Client;
 
-use Ivory\HttpAdapter\Message\ResponseInterface;
-use Ivory\HttpAdapter\Message\RequestInterface;
+use MostSignificantBit\OAuth2\Client\Http\RequestInterface;
+use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface as AccessTokenSuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;

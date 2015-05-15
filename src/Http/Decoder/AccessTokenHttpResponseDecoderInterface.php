@@ -7,7 +7,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http\Decoder;
 
-use Ivory\HttpAdapter\Message\ResponseInterface;
+use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
 
 interface AccessTokenHttpResponseDecoderInterface
 {

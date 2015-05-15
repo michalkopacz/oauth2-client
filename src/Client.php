@@ -6,6 +6,7 @@
  */
 namespace MostSignificantBit\OAuth2\Client;
 
+use Curl\Curl;
 use Ivory\HttpAdapter\CurlHttpAdapter;
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
@@ -17,6 +18,7 @@ use MostSignificantBit\OAuth2\Client\Grant\AccessTokenRequestAwareGrantInterface
 use MostSignificantBit\OAuth2\Client\Grant\AuthorizationRequestAwareGrantInterface;
 use MostSignificantBit\OAuth2\Client\Authorization\AuthorizationRequestInterface;
 use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder;
+use MostSignificantBit\OAuth2\Client\Http\DefaultClient;
 
 /**
  * OAuth2 client.
@@ -130,7 +132,7 @@ class Client
     {
         if ($this->accessTokenObtainTemplate === null) {
             $this->accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate(
-                new CurlHttpAdapter(),
+                new DefaultClient(new Curl()),
                 $this->config,
                 new AccessTokenHttpResponseJsonDecoder()
             );
