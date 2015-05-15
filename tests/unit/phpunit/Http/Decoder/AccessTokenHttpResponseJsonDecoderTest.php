@@ -7,6 +7,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Http\Decoder;
 use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder;
+use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
 use Zend\Json\Exception\RuntimeException;
 
 /**
@@ -18,6 +19,7 @@ class AccessTokenHttpResponseJsonDecoderTest extends \PHPUnit_Framework_TestCase
     {
         $decoder = new AccessTokenHttpResponseJsonDecoder();
 
+        /** @var ResponseInterface $httpResponse */
         $httpResponse = $this->getHttpResponseMock('{"access_token":"2YotnFZFEjr1zCsicMWpAA","token_type":"example"}');
         $body = $decoder->decode($httpResponse);
 
@@ -48,21 +50,13 @@ class AccessTokenHttpResponseJsonDecoderTest extends \PHPUnit_Framework_TestCase
 
     protected  function getHttpResponseMock($content)
     {
-        $httpResponse = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponse = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->setMethods(array('getBody'))
             ->getMockForAbstractClass();
 
-        $streamable = $this->getMockBuilder('\Psr\Http\Message\StreamableInterface')
-            ->setMethods(array('getContents'))
-            ->getMockForAbstractClass();
-
-        $streamable->expects($this->once())
-            ->method('getContents')
-            ->willReturn($content);
-
         $httpResponse->expects($this->once())
             ->method('getBody')
-            ->willReturn($streamable);
+            ->willReturn($content);
 
         return $httpResponse;
     }

@@ -60,6 +60,15 @@ class Request implements RequestInterface
     {
         $this->headers[$name] = $value;
     }
+
+    /**
+     * @param array $headers
+     */
+    public function setHeaders($headers)
+    {
+        return $this->headers = $headers;
+    }
+
     /**
      * @return array
      */

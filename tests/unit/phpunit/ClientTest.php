@@ -40,20 +40,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('https://auth.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&scope=scope-token-1+scope-token-2', $uri);
     }
 
-    protected function getHttpClientMock()
-    {
-        return $this->getMockBuilder('\Ivory\HttpAdapter\HttpAdapterInterface')
-            ->setMethods(array('post'))
-            ->getMockForAbstractClass();
-    }
-
-    protected function getResponseMock()
-    {
-        return $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
-            ->setMethods(array('getBody', 'getStatusCode'))
-            ->getMockForAbstractClass();
-    }
-
     protected function getConfig()
     {
         return new Config(array(

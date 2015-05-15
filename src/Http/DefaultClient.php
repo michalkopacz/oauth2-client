@@ -8,6 +8,7 @@
 namespace MostSignificantBit\OAuth2\Client\Http;
 
 use Curl\Curl;
+use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 
 class DefaultClient implements ClientInterface
 {
@@ -27,6 +28,7 @@ class DefaultClient implements ClientInterface
     /**
      * @param RequestInterface $request
      * @return ResponseInterface
+     * @throws InvalidArgumentException
      */
     public function sendRequest(RequestInterface $request)
     {
@@ -34,7 +36,13 @@ class DefaultClient implements ClientInterface
             $this->curlClient->setHeader($name, $value);
         }
 
-        $this->curlClient->post($request->getUrl(), $request->getBody());
+        switch ($request->getMethod()) {
+            case RequestInterface::METHOD_POST:
+                $this->curlClient->post($request->getUrl(), $request->getBody());
+                break;
+            default:
+                throw new InvalidArgumentException('Unsupported http request method ' . $request->getMethod(), 0, null, null, null);
+        }
 
         $response = new Response((int)$this->curlClient->http_status_code, $this->curlClient->raw_response);
 

@@ -7,7 +7,6 @@
 namespace MostSignificantBit\OAuth2\Client;
 
 use Curl\Curl;
-use Ivory\HttpAdapter\CurlHttpAdapter;
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\Config\Config;
