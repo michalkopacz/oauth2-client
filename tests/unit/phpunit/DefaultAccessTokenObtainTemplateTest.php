@@ -6,14 +6,15 @@
  */
 
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit;
-use Ivory\HttpAdapter\Message\Request;
-use Ivory\HttpAdapter\Message\Stream\StringStream;
+
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
 use MostSignificantBit\OAuth2\Client\Config\ClientType;
 use MostSignificantBit\OAuth2\Client\DefaultAccessTokenObtainTemplate;
 use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 use MostSignificantBit\OAuth2\Client\Exception\TokenException;
+use MostSignificantBit\OAuth2\Client\Http\Request;
+use MostSignificantBit\OAuth2\Client\Http\RequestInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
@@ -69,15 +70,16 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $expectedHttpRequest = new Request(
             'https://auth.example.com/token',
-            Request::METHOD_POST,
-            Request::PROTOCOL_VERSION_1_1,
-            array(
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Accept' => 'application/json',
-                'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3',
-            ),
-            new StringStream('grant_type=password&username=johndoe&password=A3ddj3w')
+            RequestInterface::METHOD_POST
         );
+
+        $expectedHttpRequest->setHeaders(array(
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Accept' => 'application/json',
+            'Authorization' => 'Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3',
+        ));
+
+        $expectedHttpRequest->setBody('grant_type=password&username=johndoe&password=A3ddj3w');
 
         $this->assertEquals($expectedHttpRequest, $httpRequest);
     }
@@ -129,14 +131,15 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $expectedHttpRequest = new Request(
             'https://auth.example.com/token',
-            Request::METHOD_POST,
-            Request::PROTOCOL_VERSION_1_1,
-            array(
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Accept' => 'application/json',
-            ),
-            new StringStream('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw')
+            RequestInterface::METHOD_POST
         );
+
+        $expectedHttpRequest->setHeaders(array(
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Accept' => 'application/json',
+        ));
+
+        $expectedHttpRequest->setBody('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw');
 
         $this->assertEquals($expectedHttpRequest, $httpRequest);
     }
@@ -186,14 +189,15 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $expectedHttpRequest = new Request(
             'https://auth.example.com/token',
-            Request::METHOD_POST,
-            Request::PROTOCOL_VERSION_1_1,
-            array(
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Accept' => 'application/json',
-            ),
-            new StringStream('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3')
+            RequestInterface::METHOD_POST
         );
+
+        $expectedHttpRequest->setHeaders(array(
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Accept' => 'application/json',
+        ));
+
+        $expectedHttpRequest->setBody('grant_type=password&username=johndoe&password=A3ddj3w&client_id=s6BhdRkqt3');
 
         $this->assertEquals($expectedHttpRequest, $httpRequest);
     }
@@ -206,14 +210,14 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
 
-        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->getMockForAbstractClass();
 
         $httpClientMock->expects($this->once())
             ->method('sendRequest')
             ->willReturn($httpResponseMock);
 
-        $httpRequestMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\RequestInterface')
+        $httpRequestMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\RequestInterface')
             ->setMethods(array('sendRequest'))
             ->getMockForAbstractClass();
 
@@ -233,7 +237,7 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
 
-        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->setMethods(array('getStatusCode'))
             ->getMockForAbstractClass();
 
@@ -252,7 +256,7 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
 
-        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->getMockForAbstractClass();
 
         $decoderMock->expects($this->once())
@@ -289,7 +293,7 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
 
-        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->getMockForAbstractClass();
 
         $decoderMock->expects($this->once())
@@ -312,7 +316,7 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
         $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
 
-        $httpResponseMock = $this->getMockBuilder('\Ivory\HttpAdapter\Message\ResponseInterface')
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
             ->getMockForAbstractClass();
 
         $decoderMock->expects($this->once())
@@ -349,7 +353,8 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
 
     protected function getHttpClientMock()
     {
-        return $this->getMockBuilder('\Ivory\HttpAdapter\HttpAdapterInterface')
+        return $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\DefaultClient')
+            ->disableOriginalConstructor()
             ->setMethods(array('sendRequest'))
             ->getMockForAbstractClass();
     }

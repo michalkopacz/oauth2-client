@@ -8,11 +8,10 @@
 namespace MostSignificantBit\OAuth2\Client;
 
 use Assert\Assertion;
-use Ivory\HttpAdapter\HttpAdapterInterface;
-use Ivory\HttpAdapter\Message\Request;
-use Ivory\HttpAdapter\Message\ResponseInterface;
-use Ivory\HttpAdapter\Message\Stream\StringStream;
-use Ivory\HttpAdapter\Message\RequestInterface;
+use MostSignificantBit\OAuth2\Client\Http\Request;
+use MostSignificantBit\OAuth2\Client\Http\RequestInterface;
+use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
+use MostSignificantBit\OAuth2\Client\Http\ClientInterface as HttpClientInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponseInterface as AccessTokenSuccessfulResponseInterface;
 use MostSignificantBit\OAuth2\Client\AccessToken\SuccessfulResponse as AccessTokenSuccessfulResponse;
 use MostSignificantBit\OAuth2\Client\Config\AuthenticationType;
@@ -27,7 +26,6 @@ use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
-use Psr\Http\Message\StreamableInterface;
 
 /**
  * Default access token obtain algorithm implementation, according to OAuth2 RFC.
@@ -35,7 +33,7 @@ use Psr\Http\Message\StreamableInterface;
 class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInterface
 {
     /**
-     * @var HttpAdapterInterface
+     * @var HttpClientInterface
      */
     protected $httpClient;
     /**
@@ -48,7 +46,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
      */
     protected $httpResponseDecoder;
 
-    public function __construct(HttpAdapterInterface $httpClient, Config $config, AccessTokenHttpResponseDecoderInterface $httpResponseDecoder)
+    public function __construct(HttpClientInterface $httpClient, Config $config, AccessTokenHttpResponseDecoderInterface $httpResponseDecoder)
     {
         $this->httpClient = $httpClient;
         $this->config = $config;
@@ -142,6 +140,11 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
         throw new TokenException($error, $errorDescription, $errorUri);
     }
 
+    /**
+     * @param RequestInterface $request
+     * @param array $bodyParams
+     * @throws \Exception
+     */
     protected function setClientAuthenticationData(RequestInterface $request, array &$bodyParams)
     {
         switch ($this->getConfig()->getClientAuthenticationType()) {
@@ -171,17 +174,15 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
 
     /**
      * @param array $bodyParams
-     * @return StreamableInterface
+     * @return string
      */
     protected function buildRequestBodyInUrlEncodedFormat(array $bodyParams)
     {
-        $body =  http_build_query($bodyParams, null, '&');
-
-        return new StringStream($body);
+        return http_build_query($bodyParams, null, '&');
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Config\Config
+     * @return Config
      */
     protected function getConfig()
     {
@@ -189,7 +190,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
     }
 
     /**
-     * @return \Ivory\HttpAdapter\HttpAdapterInterface
+     * @return HttpClientInterface
      */
     protected function getHttpClient()
     {
@@ -197,7 +198,7 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\AccessTokenHttpResponseDecoderInterface
+     * @return AccessTokenHttpResponseDecoderInterface
      */
     protected function getHttpResponseDecoder()
     {

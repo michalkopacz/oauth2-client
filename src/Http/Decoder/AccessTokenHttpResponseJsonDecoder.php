@@ -7,7 +7,7 @@
 
 namespace MostSignificantBit\OAuth2\Client\Http\Decoder;
 
-use Ivory\HttpAdapter\Message\ResponseInterface;
+use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
 use Zend\Json\Exception\RuntimeException;
 use Zend\Json\Json;
 
@@ -28,6 +28,6 @@ class AccessTokenHttpResponseJsonDecoder implements AccessTokenHttpResponseDecod
      */
     public function decode(ResponseInterface $httpResponse)
     {
-        return Json::decode($httpResponse->getBody()->getContents(), Json::TYPE_ARRAY);
+        return Json::decode($httpResponse->getBody(), Json::TYPE_ARRAY);
     }
 }
