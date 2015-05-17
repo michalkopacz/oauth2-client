@@ -8,6 +8,6 @@
 namespace MostSignificantBit\OAuth2\Client\Http;
 
 
-class HttpException extends \Exception {
+class HttpClientException extends \Exception {
 
 } 
