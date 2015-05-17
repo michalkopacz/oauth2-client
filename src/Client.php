@@ -130,8 +130,12 @@ class Client
     protected function getAccessTokenObtainTemplate()
     {
         if ($this->accessTokenObtainTemplate === null) {
+            $curlClient = new Curl();
+            $curlClient->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
+            $curlClient->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
+
             $this->accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate(
-                new DefaultClient(new Curl()),
+                new DefaultClient($curlClient),
                 $this->config,
                 new AccessTokenHttpResponseJsonDecoder()
             );
