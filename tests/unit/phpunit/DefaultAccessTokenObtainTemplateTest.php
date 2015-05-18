@@ -281,6 +281,35 @@ class DefaultAccessTokenObtainTemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedAccessTokenSuccessFullResponse, $accessTokenSuccessFullResponse);
     }
 
+    public function testConvertHttpResponseWithNullOptionalParametersToAccessTokenSuccessfulResponse()
+    {
+        $httpClientMock = $this->getHttpClientMock();
+        $configMock = $this->getConfigMock();
+        $decoderMock = $this->getResponseJsonDecoderMock();
+
+        $accessTokenObtainTemplate = new DefaultAccessTokenObtainTemplate($httpClientMock, $configMock, $decoderMock);
+
+        $httpResponseMock = $this->getMockBuilder('\MostSignificantBit\OAuth2\Client\Http\ResponseInterface')
+            ->getMockForAbstractClass();
+
+        $decoderMock->expects($this->once())
+            ->method('decode')
+            ->with($httpResponseMock)
+            ->willReturn(array(
+                'access_token' => '2YotnFZFEjr1zCsicMWpAA',
+                'token_type' => 'Bearer',
+                'expires_in' => null,
+                'refresh_token' => null,
+                'scope' => null,
+            ));
+
+        $expectedAccessTokenSuccessFullResponse = new SuccessfulResponse(new AccessToken('2YotnFZFEjr1zCsicMWpAA'), new TokenType('Bearer'));
+
+        $accessTokenSuccessFullResponse = $accessTokenObtainTemplate->convertHttpResponseToAccessTokenSuccessfulResponse($httpResponseMock);
+
+        $this->assertEquals($expectedAccessTokenSuccessFullResponse, $accessTokenSuccessFullResponse);
+    }
+
     /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Access token param in body is required.

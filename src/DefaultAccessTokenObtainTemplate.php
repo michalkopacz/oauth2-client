@@ -108,15 +108,15 @@ class DefaultAccessTokenObtainTemplate implements AccessTokenObtainTemplateInter
             new TokenType(ucfirst(strtolower($body['token_type'])))
         );
 
-        if (array_key_exists('expires_in', $body)) {
+        if (isset($body['expires_in'])) {
             $accessTokenSuccessfulResponse->setExpiresIn(new ExpiresIn($body['expires_in']));
         }
 
-        if (array_key_exists('refresh_token', $body)) {
+        if (isset($body['refresh_token'])) {
             $accessTokenSuccessfulResponse->setRefreshToken(new RefreshToken($body['refresh_token']));
         }
 
-        if (array_key_exists('scope', $body)) {
+        if (isset($body['scope'])) {
             $accessTokenSuccessfulResponse->setScope(Scope::fromParameter($body['scope']));
         }
 

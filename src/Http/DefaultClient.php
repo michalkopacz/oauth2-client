@@ -44,6 +44,10 @@ class DefaultClient implements ClientInterface
                 throw new InvalidArgumentException('Unsupported http request method ' . $request->getMethod(), 0, null, null, null);
         }
 
+        if ($this->curlClient->curl_error === true) {
+            throw new HttpClientException($this->curlClient->curl_error_messagee);
+        }
+
         $response = new Response((int)$this->curlClient->http_status_code, $this->curlClient->raw_response);
 
         return $response;
