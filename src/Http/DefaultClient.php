@@ -45,7 +45,7 @@ class DefaultClient implements ClientInterface
         }
 
         if ($this->curlClient->curl_error === true) {
-            throw new HttpClientException($this->curlClient->curl_error_messagee);
+            throw new HttpClientException($this->curlClient->curl_error_message);
         }
 
         $response = new Response((int)$this->curlClient->http_status_code, $this->curlClient->raw_response);
