@@ -104,7 +104,7 @@ class Config
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getAuthorizationEndpointUri()
     {

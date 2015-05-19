@@ -7,13 +7,13 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant\ResourceOwnerPasswordCredentials;
 
-use MostSignificantBit\OAuth2\Client\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\GrantType;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Parameter\Username;
 
-class AccessTokenRequest extends AbstractAccessTokenRequest
+class AccessTokenRequest implements AccessTokenRequestInterface
 {
     /**
      * OAuth2: REQUIRED
@@ -36,6 +36,10 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
      */
     protected $scope;
 
+    /**
+     * @param Username $username
+     * @param Password $password
+     */
     public function __construct(Username $username, Password $password)
     {
         $this->setUsername($username);
@@ -51,7 +55,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Username $username
+     * @param Username $username
      */
     public function setUsername($username)
     {
@@ -59,7 +63,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Username
+     * @return Username
      */
     public function getUsername()
     {
@@ -67,7 +71,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Password $password
+     * @param Password $password
      */
     public function setPassword($password)
     {
@@ -75,7 +79,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Password
+     * @return Password
      */
     public function getPassword()
     {
@@ -83,7 +87,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
     public function setScope($scope)
     {
@@ -91,7 +95,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope()
     {

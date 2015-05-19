@@ -40,22 +40,26 @@ class SuccessfulResponse implements SuccessfulResponseInterface
      */
     protected $scope;
 
-    public function __construct($accessToken, TokenType $tokenType)
+    /**
+     * @param AccessToken $accessToken
+     * @param TokenType $tokenType
+     */
+    public function __construct(AccessToken $accessToken, TokenType $tokenType)
     {
         $this->accessToken = $accessToken;
         $this->tokenType = $tokenType;
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\AccessToken $accessToken
+     * @param AccessToken $accessToken
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken(AccessToken $accessToken)
     {
         $this->accessToken = $accessToken;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\AccessToken
+     * @return AccessToken
      */
     public function getAccessToken()
     {
@@ -63,15 +67,15 @@ class SuccessfulResponse implements SuccessfulResponseInterface
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn $expiresIn
+     * @param ExpiresIn $expiresIn
      */
-    public function setExpiresIn($expiresIn)
+    public function setExpiresIn(ExpiresIn $expiresIn)
     {
         $this->expiresIn = $expiresIn;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn
+     * @return ExpiresIn
      */
     public function getExpiresIn()
     {
@@ -79,15 +83,15 @@ class SuccessfulResponse implements SuccessfulResponseInterface
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken $refreshToken
+     * @param RefreshToken $refreshToken
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken(RefreshToken $refreshToken)
     {
         $this->refreshToken = $refreshToken;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken
+     * @return RefreshToken
      */
     public function getRefreshToken()
     {
@@ -95,15 +99,15 @@ class SuccessfulResponse implements SuccessfulResponseInterface
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
-    public function setScope($scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope()
     {
@@ -111,15 +115,15 @@ class SuccessfulResponse implements SuccessfulResponseInterface
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\TokenType $tokenType
+     * @param TokenType $tokenType
      */
-    public function setTokenType($tokenType)
+    public function setTokenType(TokenType $tokenType)
     {
         $this->tokenType = $tokenType;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\TokenType
+     * @return TokenType
      */
     public function getTokenType()
     {

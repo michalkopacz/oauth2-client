@@ -76,6 +76,6 @@ class AuthorizationCodeGrant implements AccessTokenRequestAwareGrantInterface, A
      */
     public function getSupportedClientTypesForAuthentication()
     {
-        return array(ClientType::CONFIDENTIAL_TYPE());
+        return array(ClientType::CONFIDENTIAL_TYPE(), ClientType::PUBLIC_TYPE());
     }
 }

@@ -19,44 +19,32 @@ class GrantType extends Enum implements ValueInterface
     /**
      * @return GrantType
      */
-    //@codingStandardsIgnoreStart
     public static function AUTHORIZATION_CODE()
     {
-        // @codingStandardsIgnoreEnd
-
         return new GrantType(self::AUTHORIZATION_CODE);
     }
 
     /**
      * @return GrantType
      */
-    //@codingStandardsIgnoreStart
     public static function PASSWORD()
     {
-        // @codingStandardsIgnoreEnd
-
         return new GrantType(self::PASSWORD);
     }
 
     /**
      * @return GrantType
      */
-    //@codingStandardsIgnoreStart
     public static function REFRESH_TOKEN()
     {
-        // @codingStandardsIgnoreEnd
-
         return new GrantType(self::REFRESH_TOKEN);
     }
 
     /**
      * @return GrantType
      */
-    //@codingStandardsIgnoreStart
     public static function CLIENT_CREDENTIALS()
     {
-        // @codingStandardsIgnoreEnd
-
         return new GrantType(self::CLIENT_CREDENTIALS);
     }
 }
