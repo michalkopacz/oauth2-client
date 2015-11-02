@@ -39,3 +39,26 @@ try {
     //log exception
 }
 ```
+
+# Contribution
+
+## Testing
+
+OAuth2 Client library has wrote unit and integration tests. We use phpunit for both of them.
+
+### Run all tests
+```sh
+vendor/bin/phpunit
+```
+
+### Run only unit tests
+
+```sh
+vendor/bin/phpunit --group unit
+```
+
+### Run only integration tests
+
+```sh
+vendor/bin/phpunit --group integration
+```
