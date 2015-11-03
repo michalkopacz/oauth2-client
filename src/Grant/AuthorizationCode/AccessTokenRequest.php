@@ -51,7 +51,7 @@ class AccessTokenRequest implements AccessTokenRequestInterface
     /**
      * @param Code $code
      */
-    public function setCode($code)
+    public function setCode(Code $code)
     {
         $this->code = $code;
     }
@@ -67,7 +67,7 @@ class AccessTokenRequest implements AccessTokenRequestInterface
     /**
      * @param RedirectUri $redirectUri
      */
-    public function setRedirectUri($redirectUri)
+    public function setRedirectUri(RedirectUri $redirectUri)
     {
         $this->redirectUri = $redirectUri;
     }

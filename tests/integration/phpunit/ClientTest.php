@@ -17,7 +17,9 @@ use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Code;
 use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
 use MostSignificantBit\OAuth2\Client\Parameter\Password;
+use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
 use MostSignificantBit\OAuth2\Client\Parameter\Username;
 use Symfony\Component\Process\Process;
@@ -53,6 +55,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $accessTokenExpectedResponse->setRefreshToken(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
 
         $accessTokenRequest = new AuthorizationCodeGrantAccessTokenRequest(new Code('SplxlOBeZQQYbYS6WxSbIA'));
+        $accessTokenRequest->setRedirectUri(new RedirectUri('https://example.com/oauth2/callback'));
 
         $grant = new AuthorizationCodeGrant($accessTokenRequest);
 
@@ -72,6 +75,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $accessTokenExpectedResponse->setRefreshToken(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
 
         $accessTokenRequest = new ResourceOwnerPasswordCredentialsAccessTokenRequest(new Username('johndoe'), new Password('A3ddj3w'));
+        $accessTokenRequest->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
 
         $grant = new ResourceOwnerPasswordCredentialsGrant($accessTokenRequest);
 
@@ -89,6 +93,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $accessTokenExpectedResponse->setExpiresIn(new ExpiresIn(3600));
 
         $accessTokenRequest = new ClientCredentialsGrantAccessTokenRequest();
+        $accessTokenRequest->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
 
         $grant = new ClientCredentialsGrant($accessTokenRequest);
 
@@ -107,6 +112,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $accessTokenExpectedResponse->setRefreshToken(new RefreshToken('dD3BGS4cfASc3CFS23caxcs'));
 
         $accessTokenRequest = new AccessTokenRequest(new RefreshToken('tGzv3JOkF0XG5Qx2TlKWIA'));
+        $accessTokenRequest->setScope(new Scope(array('scope-token-1', 'scope-token-2')));
 
         $grant = new RefreshTokenGrant($accessTokenRequest);
 

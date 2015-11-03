@@ -31,7 +31,7 @@ class AccessTokenRequest implements AccessTokenRequestInterface
     /**
      * @param Scope $scope
      */
-    public function setScope($scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
