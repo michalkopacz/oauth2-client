@@ -41,7 +41,7 @@ class DefaultClient implements ClientInterface
                 $this->curlClient->post($request->getUrl(), $request->getBody());
                 break;
             default:
-                throw new InvalidArgumentException('Unsupported http request method ' . $request->getMethod(), 0, null, null, null);
+                throw new HttpClientException('Unsupported http request method ' . $request->getMethod());
         }
 
         if ($this->curlClient->curl_error === true) {

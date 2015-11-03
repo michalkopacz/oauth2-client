@@ -7,12 +7,12 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant\RefreshToken;
 
-use MostSignificantBit\OAuth2\Client\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\GrantType;
 use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 
-class AccessTokenRequest extends AbstractAccessTokenRequest
+class AccessTokenRequest implements AccessTokenRequestInterface
 {
     /**
      * The refresh token issued to the client.
@@ -30,6 +30,9 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
      */
     protected $scope;
 
+    /**
+     * @param RefreshToken $refreshToken
+     */
     function __construct(RefreshToken $refreshToken)
     {
         $this->setRefreshToken($refreshToken);
@@ -44,7 +47,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken $refreshToken
+     * @param RefreshToken $refreshToken
      */
     public function setRefreshToken(RefreshToken $refreshToken)
     {
@@ -52,7 +55,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken
+     * @return RefreshToken
      */
     public function getRefreshToken()
     {
@@ -60,7 +63,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
     public function setScope(Scope $scope)
     {
@@ -68,7 +71,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope()
     {

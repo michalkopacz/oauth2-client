@@ -8,6 +8,7 @@
 namespace MostSignificantBit\OAuth2\Client\Parameter;
 
 use MostSignificantBit\OAuth2\Client\Assert\Assertion;
+use MostSignificantBit\OAuth2\Client\Exception\InvalidArgumentException;
 
 class Scope implements ValueInterface
 {
@@ -27,9 +28,10 @@ class Scope implements ValueInterface
 
     /**
      * @param array  $scopeTokens
-     * @param string $delimiter   Delimiter should be set as space, because scopeToken can not include space chars. But some oauth2 providers, like github, use comma as scopeTokens delimiters, although scopeToken can include comma char.
+     * @param string $delimiter Delimiter should be set as space, because scopeToken can not include space chars.
      *                          But some oauth2 providers, like github, use comma as scopeTokens delimiters,
      *                          although scopeToken can include comma char.
+     * @throws InvalidArgumentException
      */
     public function __construct(array $scopeTokens, $delimiter = self::DEFAULT_SCOPE_TOKENS_DELIMITER)
     {

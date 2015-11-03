@@ -59,15 +59,15 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri $redirectUri
+     * @param RedirectUri $redirectUri
      */
-    public function setRedirectUri($redirectUri)
+    public function setRedirectUri(RedirectUri $redirectUri)
     {
         $this->redirectUri = $redirectUri;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri
+     * @return RedirectUri
      */
     public function getRedirectUri()
     {
@@ -75,15 +75,15 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
-    public function setScope($scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope()
     {
@@ -91,15 +91,15 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\State $state
+     * @param State $state
      */
-    public function setState($state)
+    public function setState(State $state)
     {
         $this->state = $state;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\State
+     * @return State
      */
     public function getState()
     {

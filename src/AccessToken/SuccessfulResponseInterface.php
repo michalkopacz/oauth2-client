@@ -7,55 +7,61 @@
 
 namespace MostSignificantBit\OAuth2\Client\AccessToken;
 
+use MostSignificantBit\OAuth2\Client\Parameter\AccessToken;
+use MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn;
+use MostSignificantBit\OAuth2\Client\Parameter\RefreshToken;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+use MostSignificantBit\OAuth2\Client\Parameter\TokenType;
+
 interface SuccessfulResponseInterface
 {
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\AccessToken $accessToken
+     * @param AccessToken $accessToken
      */
-    public function setAccessToken($accessToken);
+    public function setAccessToken(AccessToken $accessToken);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\AccessToken
+     * @return AccessToken
      */
     public function getAccessToken();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\TokenType $tokenType
+     * @param TokenType $tokenType
      */
-    public function setTokenType($tokenType);
+    public function setTokenType(TokenType $tokenType);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\TokenType
+     * @return TokenType
      */
     public function getTokenType();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn $expiresIn
+     * @param ExpiresIn $expiresIn
      */
-    public function setExpiresIn($expiresIn);
+    public function setExpiresIn(ExpiresIn $expiresIn);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\ExpiresIn
+     * @return ExpiresIn
      */
     public function getExpiresIn();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken $refreshToken
+     * @param RefreshToken $refreshToken
      */
-    public function setRefreshToken($refreshToken);
+    public function setRefreshToken(RefreshToken $refreshToken);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\RefreshToken
+     * @return RefreshToken
      */
     public function getRefreshToken();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
-    public function setScope($scope);
+    public function setScope(Scope $scope);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope();
 }

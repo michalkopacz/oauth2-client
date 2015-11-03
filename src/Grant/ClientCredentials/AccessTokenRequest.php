@@ -7,11 +7,11 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant\ClientCredentials;
 
-use MostSignificantBit\OAuth2\Client\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\GrantType;
 use MostSignificantBit\OAuth2\Client\Parameter\Scope;
 
-class AccessTokenRequest extends AbstractAccessTokenRequest
+class AccessTokenRequest implements AccessTokenRequestInterface
 {
     /**
      * OAuth2: OPTIONAL
@@ -29,15 +29,15 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     }
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
-    public function setScope($scope)
+    public function setScope(Scope $scope)
     {
         $this->scope = $scope;
     }
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope()
     {

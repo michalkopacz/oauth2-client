@@ -73,6 +73,10 @@ class TokenException extends \Exception implements OAuth2ClientExceptionInterfac
         return $this->errorUri;
     }
 
+    /**
+     * @param $error
+     * @return int
+     */
     protected function getCodeForError($error)
     {
         $codeConst = "self::" . strtoupper($error) . '_CODE';

@@ -19,7 +19,9 @@ class RefreshTokenGrant implements AccessTokenRequestAwareGrantInterface
      */
     protected $accessTokenRequest;
 
-
+    /**
+     * @param AccessTokenRequest $accessTokenRequest
+     */
     public function __construct(AccessTokenRequest $accessTokenRequest = null)
     {
         if ($accessTokenRequest !== null) {

@@ -7,6 +7,7 @@ authorization_code_grant:
     request:
       grant_type: authorization_code
       code: SplxlOBeZQQYbYS6WxSbIA
+      redirect_uri: https://example.com/oauth2/callback
   response:
     headers:
       Content-Type: application/json
@@ -28,6 +29,7 @@ resource_owner_password_credentials_grant:
       grant_type: password
       username: johndoe
       password: A3ddj3w
+      scope: scope-token-1 scope-token-2
   response:
     headers:
       Content-Type: application/json
@@ -47,6 +49,7 @@ client_credentials_grant:
      Authorization: Basic @string@
    request:
      grant_type: client_credentials
+     scope: scope-token-1 scope-token-2
  response:
    headers:
      Content-Type: application/json
@@ -66,6 +69,7 @@ refresh_token_grant:
    request:
      grant_type: refresh_token
      refresh_token: tGzv3JOkF0XG5Qx2TlKWIA
+     scope: scope-token-1 scope-token-2
  response:
    headers:
      Content-Type: application/json

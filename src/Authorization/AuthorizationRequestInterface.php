@@ -7,6 +7,11 @@
 
 namespace MostSignificantBit\OAuth2\Client\Authorization;
 
+use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
+use MostSignificantBit\OAuth2\Client\Parameter\ResponseType;
+use MostSignificantBit\OAuth2\Client\Parameter\Scope;
+use MostSignificantBit\OAuth2\Client\Parameter\State;
+
 interface AuthorizationRequestInterface
 {
     /**
@@ -27,32 +32,32 @@ interface AuthorizationRequestInterface
     public function getClientId();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri $redirectUri
+     * @param RedirectUri $redirectUri
      */
-    public function setRedirectUri($redirectUri);
+    public function setRedirectUri(RedirectUri $redirectUri);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\RedirectUri
+     * @return RedirectUri
      */
     public function getRedirectUri();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\Scope $scope
+     * @param Scope $scope
      */
-    public function setScope($scope);
+    public function setScope(Scope $scope);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\Scope
+     * @return Scope
      */
     public function getScope();
 
     /**
-     * @param \MostSignificantBit\OAuth2\Client\Parameter\State $state
+     * @param State $state
      */
-    public function setState($state);
+    public function setState(State $state);
 
     /**
-     * @return \MostSignificantBit\OAuth2\Client\Parameter\State
+     * @return State
      */
     public function getState();
 

@@ -7,12 +7,12 @@
 
 namespace MostSignificantBit\OAuth2\Client\Grant\AuthorizationCode;
 
-use MostSignificantBit\OAuth2\Client\AccessToken\AbstractRequest as AbstractAccessTokenRequest;
+use MostSignificantBit\OAuth2\Client\AccessToken\RequestInterface as AccessTokenRequestInterface;
 use MostSignificantBit\OAuth2\Client\Parameter\Code;
 use MostSignificantBit\OAuth2\Client\Parameter\GrantType;
 use MostSignificantBit\OAuth2\Client\Parameter\RedirectUri;
 
-class AccessTokenRequest extends AbstractAccessTokenRequest
+class AccessTokenRequest implements AccessTokenRequestInterface
 {
     /**
      * The authorization code received from the authorization server.
@@ -51,7 +51,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     /**
      * @param Code $code
      */
-    public function setCode($code)
+    public function setCode(Code $code)
     {
         $this->code = $code;
     }
@@ -67,7 +67,7 @@ class AccessTokenRequest extends AbstractAccessTokenRequest
     /**
      * @param RedirectUri $redirectUri
      */
-    public function setRedirectUri($redirectUri)
+    public function setRedirectUri(RedirectUri $redirectUri)
     {
         $this->redirectUri = $redirectUri;
     }
