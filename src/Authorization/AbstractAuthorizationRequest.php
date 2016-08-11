@@ -128,7 +128,7 @@ abstract class AbstractAuthorizationRequest implements AuthorizationRequestInter
         }
 
         if ($this->getState() !== null) {
-            $params['state'] = $this->getState();
+            $params['state'] = $this->getState()->getValue();
         }
 
         return $params;
