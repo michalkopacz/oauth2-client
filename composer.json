@@ -20,9 +20,9 @@
     },
     "require-dev": {
         "php": ">=5.3.3",
-        "coduo/tutu": "dev-master",
-        "coduo/tutu-faker-extension": "dev-master",
-        "coduo/tutu-twig-extension": "dev-master",
+        "coduo/tutu": "^1.0",
+        "coduo/tutu-faker-extension": "^1.0",
+        "coduo/tutu-twig-extension": "^1.0",
         "phpunit/phpunit": "~4.0",
         "symfony/process": "~2.6",
         "squizlabs/php_codesniffer": "~2.2"

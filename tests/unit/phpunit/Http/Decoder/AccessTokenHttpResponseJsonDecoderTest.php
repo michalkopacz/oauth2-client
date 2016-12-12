@@ -8,7 +8,6 @@
 namespace MostSignificantBit\OAuth2\Client\Tests\Unit\Http\Decoder;
 use MostSignificantBit\OAuth2\Client\Http\Decoder\AccessTokenHttpResponseJsonDecoder;
 use MostSignificantBit\OAuth2\Client\Http\ResponseInterface;
-use Zend\Json\Exception\RuntimeException;
 
 /**
  * @group unit
@@ -30,7 +29,7 @@ class AccessTokenHttpResponseJsonDecoderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException Zend\Json\Exception\RuntimeException
      * @expectedExceptionMessage Decoding failed: Syntax error
      */
     public function testDecodedDataIsNotJson()
@@ -38,6 +37,7 @@ class AccessTokenHttpResponseJsonDecoderTest extends \PHPUnit_Framework_TestCase
         $decoder = new AccessTokenHttpResponseJsonDecoder();
 
         $httpResponse = $this->getHttpResponseMock('not json');
+
         $decoder->decode($httpResponse);
     }
 
