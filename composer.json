@@ -13,16 +13,16 @@
         "php" : ">=5.3.3",
         "myclabs/php-enum": "~1.3",
         "beberlei/assert": "~2.3",
-        "zendframework/zend-stdlib": "^2.2",
+        "zendframework/zend-stdlib": "^2.2 || ^3.0",
         "zendframework/zend-uri": "^2.2",
         "zendframework/zend-json": "^2.2",
         "php-curl-class/php-curl-class": "~3.5.0"
     },
     "require-dev": {
         "php": ">=5.3.3",
-        "coduo/tutu": "dev-master",
-        "coduo/tutu-faker-extension": "dev-master",
-        "coduo/tutu-twig-extension": "dev-master",
+        "coduo/tutu": "^1.0",
+        "coduo/tutu-faker-extension": "^1.0",
+        "coduo/tutu-twig-extension": "^1.0",
         "phpunit/phpunit": "~4.0",
         "symfony/process": "~2.6",
         "squizlabs/php_codesniffer": "~2.2"
